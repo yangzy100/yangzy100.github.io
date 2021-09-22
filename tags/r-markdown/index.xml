@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R Markdown on My Blogs website</title>
+    <link>/tags/r-markdown/</link>
+    <description>Recent content in R Markdown on My Blogs website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 22 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/r-markdown/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Plot with Error Bar</title>
+      <link>/2021/09/22/plot-with-error-bar/</link>
+      <pubDate>Wed, 22 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/2021/09/22/plot-with-error-bar/</guid>
+      <description>IntroductionThis tutorial describes how to create a graph with error bars using R software and ggplot2 package. There are different types of error bars which can be created using the functions below :
+geom_errorbar(),geom_linerange(),geom_pointrange(),geom_crossbar(),geom_errorbarh()
+Prepare the dataToothGrowth data is used. It describes the effect of Vitamin C on tooth growth in Guinea pigs. Three dose levels of Vitamin C (0.5, 1, and 2 mg) with each of two delivery methods [orange juice (OJ) or ascorbic acid (VC)] are used :</description>
+    </item>
+    
+  </channel>
+</rss>

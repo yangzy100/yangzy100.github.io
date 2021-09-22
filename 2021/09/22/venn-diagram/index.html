@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.88.1" />
+
+
+<title>Venn Diagram - My Blogs website</title>
+<meta property="og:title" content="Venn Diagram - My Blogs website">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/yangzy100">GitHub</a></li>
+    
+    <li><a href="https://www.linkedin.com/in/yangzy100/">Linkedin</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">4 min read</span>
+    
+
+    <h1 class="article-title">Venn Diagram</h1>
+
+    
+    <span class="article-date">2021-09-22</span>
+    
+
+    <div class="article-content">
+      
+<script src="/2021/09/22/venn-diagram/index_files/header-attrs/header-attrs.js"></script>
+
+
+<p>Venn Diagram can be created by various Packages:
+ggven, ggVennDiagram, RAM, and VennDiagram</p>
+<div id="generate-data" class="section level2">
+<h2>Generate Data</h2>
+<pre class="r"><code># Generate 3 sets of 200 words
+set1 &lt;- paste(rep(&quot;word_&quot; , 200) , sample(c(1:1000) , 200 , replace=F) , sep=&quot;&quot;)
+set2 &lt;- paste(rep(&quot;word_&quot; , 200) , sample(c(1:1000) , 200 , replace=F) , sep=&quot;&quot;)
+set3 &lt;- paste(rep(&quot;word_&quot; , 200) , sample(c(1:1000) , 200 , replace=F) , sep=&quot;&quot;)
+
+# List of items
+x &lt;- list(A=set1, B=set2)
+
+# List of items
+y &lt;- list(A=set1, B=set2, C=set3)
+names(y)</code></pre>
+<pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot;</code></pre>
+</div>
+<div id="create-venn-diagrams-using-the-ggven-r-package" class="section level2">
+<h2>1) Create Venn diagrams using the ggven R package</h2>
+<div id="d-venn-diagram" class="section level3">
+<h3>2D Venn diagram</h3>
+<pre class="r"><code>library(&quot;ggvenn&quot;)
+
+ggvenn(y, columns = c(&quot;A&quot;, &quot;B&quot;),stroke_size = 0.5)</code></pre>
+<p><img src="/2021/09/22/venn-diagram/index_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
+<div id="d-venn-diagram-1" class="section level3">
+<h3>3D Venn diagram</h3>
+<p><img src="/2021/09/22/venn-diagram/index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+</div>
+<div id="using-the-ggvenndiagram" class="section level2">
+<h2>2) Using the ggVennDiagram</h2>
+<pre class="r"><code>library(ggVennDiagram)
+# 2D Venn diagram
+ggVennDiagram(x)</code></pre>
+<p><img src="/2021/09/22/venn-diagram/index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code># 3D Venn diagram
+ggVennDiagram(y)</code></pre>
+<p><img src="/2021/09/22/venn-diagram/index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div id="customize-border-and-category-names-of-the-venn-diagram" class="section level3">
+<h3>Customize border and category names of the Venn diagram</h3>
+<pre class="r"><code>library(ggplot2)
+
+ggVennDiagram(y, category.names = c(&quot;Group 1&quot;,&quot;Group 2&quot;,&quot;Group 3&quot;), 
+              color = &quot;black&quot;, lwd = 0.8, lty = 1, label_alpha = 0) + 
+  scale_fill_gradient(low = &quot;yellow&quot;, high = &quot;lightblue&quot;)</code></pre>
+<p><img src="/2021/09/22/venn-diagram/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+</div>
+<div id="using-the-ram-package" class="section level2">
+<h2>3) Using the RAM package</h2>
+<pre class="r"><code>library(RAM)
+group.venn(list(Group1=set1, Group2=set2), label=F, 
+           fill = c(&quot;orange&quot;, &quot;blue&quot;),
+           cat.pos = c(0, 0),
+           lab.cex=1.1)</code></pre>
+<p><img src="/2021/09/22/venn-diagram/index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="using-the-venndiagram-package" class="section level2">
+<h2>4) Using the VennDiagram Package</h2>
+<pre class="r"><code>library(VennDiagram)
+
+v&lt;-venn.diagram(
+  x = list(set1, set2, set3),
+  category.names = c(&quot;Set 1&quot; , &quot;Set 2 &quot; , &quot;Set 3&quot;),
+  fill = c(&quot;orange&quot;, &quot;blue&quot;,&quot;pink&quot;),
+  alpha = c(0.5, 0.5, 0.5), cat.cex = 1.5, cex=1.5,
+  filename=NULL
+)
+
+# have a look at the default plot
+grid.newpage()
+grid.draw(v)</code></pre>
+<p><img src="/2021/09/22/venn-diagram/index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<div id="show-the-intersection-names" class="section level3">
+<h3>Show the intersection names</h3>
+<pre class="r"><code># have a look at the names in the plot object v
+lapply(v,  names)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;x&quot;          &quot;y&quot;          &quot;id&quot;         &quot;id.lengths&quot; &quot;name&quot;      
+## [6] &quot;gp&quot;         &quot;vp&quot;         &quot;params&quot;    
+## 
+## [[2]]
+## [1] &quot;x&quot;          &quot;y&quot;          &quot;id&quot;         &quot;id.lengths&quot; &quot;name&quot;      
+## [6] &quot;gp&quot;         &quot;vp&quot;         &quot;params&quot;    
+## 
+## [[3]]
+## [1] &quot;x&quot;          &quot;y&quot;          &quot;id&quot;         &quot;id.lengths&quot; &quot;name&quot;      
+## [6] &quot;gp&quot;         &quot;vp&quot;         &quot;params&quot;    
+## 
+## [[4]]
+## [1] &quot;x&quot;          &quot;y&quot;          &quot;id&quot;         &quot;id.lengths&quot; &quot;name&quot;      
+## [6] &quot;gp&quot;         &quot;vp&quot;         &quot;params&quot;    
+## 
+## [[5]]
+## [1] &quot;x&quot;          &quot;y&quot;          &quot;id&quot;         &quot;id.lengths&quot; &quot;name&quot;      
+## [6] &quot;gp&quot;         &quot;vp&quot;         &quot;params&quot;    
+## 
+## [[6]]
+## [1] &quot;x&quot;          &quot;y&quot;          &quot;id&quot;         &quot;id.lengths&quot; &quot;name&quot;      
+## [6] &quot;gp&quot;         &quot;vp&quot;         &quot;params&quot;    
+## 
+## [[7]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;           
+## 
+## [[8]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;           
+## 
+## [[9]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;           
+## 
+## [[10]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;           
+## 
+## [[11]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;           
+## 
+## [[12]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;           
+## 
+## [[13]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;           
+## 
+## [[14]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;           
+## 
+## [[15]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;           
+## 
+## [[16]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;</code></pre>
+<pre class="r"><code># We are interested in the labels
+lapply(v, function(i) i$label)</code></pre>
+<pre><code>## [[1]]
+## NULL
+## 
+## [[2]]
+## NULL
+## 
+## [[3]]
+## NULL
+## 
+## [[4]]
+## NULL
+## 
+## [[5]]
+## NULL
+## 
+## [[6]]
+## NULL
+## 
+## [[7]]
+## [1] &quot;129&quot;
+## 
+## [[8]]
+## [1] &quot;36&quot;
+## 
+## [[9]]
+## [1] &quot;121&quot;
+## 
+## [[10]]
+## [1] &quot;27&quot;
+## 
+## [[11]]
+## [1] &quot;8&quot;
+## 
+## [[12]]
+## [1] &quot;35&quot;
+## 
+## [[13]]
+## [1] &quot;130&quot;
+## 
+## [[14]]
+## [1] &quot;Set 1&quot;
+## 
+## [[15]]
+## [1] &quot;Set 2 &quot;
+## 
+## [[16]]
+## [1] &quot;Set 3&quot;</code></pre>
+</div>
+<div id="over-write-labels-11-chosen-by-manual-check-of-labels" class="section level3">
+<h3>Over-write labels (11 chosen by manual check of labels)</h3>
+<pre class="r"><code>v[[11]]$label&lt;- paste(intersect(intersect(set1,set2),set3), collapse=&quot;\n&quot;)  </code></pre>
+<pre class="r"><code># plot  
+grid.newpage()
+grid.draw(v)</code></pre>
+<p><img src="/2021/09/22/venn-diagram/index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+</div>
+<div id="customize-it" class="section level2">
+<h2>Customize it</h2>
+<pre class="r"><code># Prepare a palette of 3 colors with R colorbrewer:
+library(RColorBrewer)
+myCol &lt;- brewer.pal(3, &quot;Pastel2&quot;)
+
+# Chart
+v2&lt;-venn.diagram(
+  x = list(set1, set2, set3),
+  category.names = c(&quot;Set 1&quot; , &quot;Set 2 &quot; , &quot;Set 3&quot;),
+  alpha = c(0.5, 0.5, 0.5), 
+  filename=NULL,
+
+  # Circles
+  lwd = 2,
+  lty = &#39;blank&#39;,
+  fill = myCol,
+  
+  # Numbers
+  cex = .6,
+  fontface = &quot;bold&quot;,
+  fontfamily = &quot;sans&quot;,
+  
+  # Set names
+  cat.cex = 1.2,
+  cat.fontface = &quot;bold&quot;,
+  cat.default.pos = &quot;outer&quot;,
+  cat.fontfamily = &quot;sans&quot;,
+  rotation = 1
+)
+
+v2[[11]]$label&lt;-paste(paste0(&#39;Intersection = &#39;,length(intersect(intersect(set1,set2),set3)),&quot;\n&quot;,
+                      paste(intersect(intersect(set1,set2),set3), collapse=&quot;\n&quot;))) 
+
+# plot  
+grid.newpage()
+grid.draw(v2)</code></pre>
+<p><img src="/2021/09/22/venn-diagram/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+
