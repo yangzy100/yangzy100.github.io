@@ -1,0 +1,6 @@
+baseURL: http://yangzy100.github.io/
+languageCode: en-us
+title: My New Blogs
+theme = "hugo-academic"
+enableEmoji = true
+

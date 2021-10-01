@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>plot on My Blogs website</title>
+    <title>plot on Joey&#39;s Blogs</title>
     <link>/tags/plot/</link>
-    <description>Recent content in plot on My Blogs website</description>
+    <description>Recent content in plot on Joey&#39;s Blogs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 22 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/plot/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 01 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/plot/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Logistic Regression in R</title>
+      <link>/2021/10/01/logistic-regression-in-r/</link>
+      <pubDate>Fri, 01 Oct 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/2021/10/01/logistic-regression-in-r/</guid>
+      <description># Load require library library(ISLR)library(plyr)library(tidyverse) # data manipulation and visualizationlibrary(modelr) # provides easy pipeline modeling functionslibrary(broom) # helps to tidy up model outputslibrary(ROCR) # ROC curve and AUCRead in Data# Load data (default &amp;lt;- as_tibble(ISLR::Default))## # A tibble: 10,000 x 4## default student balance income## &amp;lt;fct&amp;gt; &amp;lt;fct&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;## 1 No No 730. 44362.## 2 No Yes 817.</description>
+    </item>
+    
     <item>
       <title>Plot with Error Bar</title>
       <link>/2021/09/22/plot-with-error-bar/</link>
