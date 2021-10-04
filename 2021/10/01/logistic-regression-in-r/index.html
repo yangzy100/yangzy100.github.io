@@ -271,12 +271,7 @@ default %&gt;%
 test_prob &lt;- predict(Final.glm, type = &quot;response&quot;, newdata = test)
 test_pred &lt;- ifelse(test_prob &gt;= 0.5,&#39;Yes&#39;, &#39;No&#39;)
 
-test_tab=table(actuals=test$default, predicted=test_pred)
-
-test_tab%&gt;%
-  kable() %&gt;%
-  kable_classic(full_width = F, html_font = &quot;Cambria&quot;) %&gt;%
-  add_header_above(header = c(&quot; &quot;=1, &quot;Predicted&quot;=2))</code></pre>
+test_tab=table(actuals=test$default, predicted=test_pred)</code></pre>
 <table class=" lightable-classic" style="font-family: Cambria; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -324,14 +319,7 @@ Yes
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>test_con_mat = caret::confusionMatrix(test_tab)
-
-#prediction accuracy
-c(test_con_mat$overall[&quot;Accuracy&quot;], 
-  test_con_mat$byClass[&quot;Sensitivity&quot;], 
-  test_con_mat$byClass[&quot;Specificity&quot;])%&gt;%
-  kable(col.names=&#39;Result&#39;) %&gt;%
-  kable_classic(full_width = F, html_font = &quot;Cambria&quot;)</code></pre>
+<pre class="r"><code>test_con_mat = caret::confusionMatrix(test_tab)</code></pre>
 <table class=" lightable-classic" style="font-family: Cambria; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -383,7 +371,7 @@ plot(perfROCR, colorize = TRUE)
 abline(0,1,col=&#39;blue&#39;)
 text(x=0.5,y=0.75, col=&#39;red&#39;,
      labels=paste(&#39;AUC =&#39;, round(auc,4)))</code></pre>
-<p><img src="/2021/10/01/logistic-regression-in-r/index_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="/2021/10/01/logistic-regression-in-r/index_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The AUC (area under the curve) is 0.9421, which is close to 1, indicates that the model fit the data very well.</p>
 </div>
 
