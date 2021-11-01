@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html><head>
+<title>Venn Diagram</title>
+
+
+
+
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="google-site-verification" content="">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="telephone=no" name="format-detection">
+<meta name="description" content="Create Venn Diagram with various R packages.">
+<meta name="renderer" content="webkit">
+<meta name="theme-color" content="#ffffff">
+
+
+
+
+
+
+
+
+
+
+
+<link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/journal.min.3f72a5fc8f5b5dd732a4b476aced0eece2156958d9d414316494ddb10593ddf7.css" integrity="sha256-P3Kl/I9bXdcypLR2rO0O7OIVaVjZ1BQxZJTdsQWT3fc=" media="screen">
+
+
+
+<link rel="stylesheet" href="/scss/dark-mode.min.f7c2efa7183435a6bd1842f91c541481c7a5137b5991629a870f24e4a516ad4b.css" integrity="sha256-98Lvpxg0Naa9GEL5HFQUgcelE3tZkWKahw8k5KUWrUs=" media="screen">
+
+
+<script src="/vendor/js/loadCSS.js"></script>
+<script>
+  loadCSS("https://fonts.googleapis.com/css?family=Fira+Mono|Material+Icons");
+</script>
+
+
+
+
+
+
+  <script src="/js/toc.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    	<div id="app"><div id="sideContainer" class="side-container">
+    
+    <a class="a-block nav-head false" href="/">
+    
+        <div class="nav-title">
+            Joey&#39;s Blog
+        </div>
+        
+    </a>
+
+    <div class="nav-link-list">
+        
+        
+            
+            
+            
+                
+            
+            
+            
+            <a class="a-block nav-link-item active" href="/post/">
+                Posts
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/about/">
+                About
+            </a>
+            
+        
+    </div>
+
+    
+
+    <div class="nav-footer">
+        
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	2021 Joey&#39;s Blog
+	
+
+    </div>
+    
+</div><div id="extraContainer" class="extra-container">
+    
+    
+    <div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%3ch2%3eGenerate%20Data%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;Generate Data&lt;/h2&gt;-nav`)" id="&lt;h2&gt;Generate Data&lt;/h2&gt;-nav">
+									Generate Data
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%3ch2%3e1%29%20Create%20Venn%20diagrams%20using%20the%20ggven%20R%20package%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;1) Create Venn diagrams using the ggven R package&lt;/h2&gt;-nav`)" id="&lt;h2&gt;1) Create Venn diagrams using the ggven R package&lt;/h2&gt;-nav">
+									1) Create Venn diagrams using the ggven R package
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%3ch3%3e2D%20Venn%20diagram%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;2D Venn diagram&lt;/h3&gt;-nav`)" id="&lt;h3&gt;2D Venn diagram&lt;/h3&gt;-nav">
+									2D Venn diagram
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%3ch3%3e3D%20Venn%20diagram%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;3D Venn diagram&lt;/h3&gt;-nav`)" id="&lt;h3&gt;3D Venn diagram&lt;/h3&gt;-nav">
+									3D Venn diagram
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+							
+								</ul>
+							
+						
+						
+						
+							<li>
+								<a href="#%3ch2%3e2%29%20Using%20the%20ggVennDiagram%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;2) Using the ggVennDiagram&lt;/h2&gt;-nav`)" id="&lt;h2&gt;2) Using the ggVennDiagram&lt;/h2&gt;-nav">
+									2) Using the ggVennDiagram
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%3ch3%3eCustomize%20border%20and%20category%20names%20of%20the%20Venn%20diagram%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;Customize border and category names of the Venn diagram&lt;/h3&gt;-nav`)" id="&lt;h3&gt;Customize border and category names of the Venn diagram&lt;/h3&gt;-nav">
+									Customize border and category names of the Venn diagram
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+							
+								</ul>
+							
+						
+						
+						
+							<li>
+								<a href="#%3ch2%3e3%29%20Using%20the%20RAM%20package%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;3) Using the RAM package&lt;/h2&gt;-nav`)" id="&lt;h2&gt;3) Using the RAM package&lt;/h2&gt;-nav">
+									3) Using the RAM package
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%3ch2%3e4%29%20Using%20the%20VennDiagram%20Package%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;4) Using the VennDiagram Package&lt;/h2&gt;-nav`)" id="&lt;h2&gt;4) Using the VennDiagram Package&lt;/h2&gt;-nav">
+									4) Using the VennDiagram Package
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%3ch3%3eShow%20the%20intersection%20names%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;Show the intersection names&lt;/h3&gt;-nav`)" id="&lt;h3&gt;Show the intersection names&lt;/h3&gt;-nav">
+									Show the intersection names
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%3ch3%3eOver-write%20labels%20%2811%20chosen%20by%20manual%20check%20of%20labels%29%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;Over-write labels (11 chosen by manual check of labels)&lt;/h3&gt;-nav`)" id="&lt;h3&gt;Over-write labels (11 chosen by manual check of labels)&lt;/h3&gt;-nav">
+									Over-write labels (11 chosen by manual check of labels)
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+							
+								</ul>
+							
+						
+						
+						
+							<li>
+								<a href="#%3ch2%3eCustomize%20it%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;Customize it&lt;/h2&gt;-nav`)" id="&lt;h2&gt;Customize it&lt;/h2&gt;-nav">
+									Customize it
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
+</div>
+    
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+        
+        <a type="button" class="pagination-action" id="darkModeToggleButton">
+            <span class="material-icons pagination-action-icon" id="darkModeToggleIcon">
+                dark_mode
+            </span>
+        </a>
+        
+        
+    </div>
+</div>
+<div class="single-column-drawer-container" id="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            
+            
+            
+                
+                
+                
+                    
+                
+                
+                
+                <a class="a-block drawer-menu-item active" href="/post/">
+                    Posts
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/about/">
+                    About
+                </a>
+                
+            
+            
+            <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%3ch2%3eGenerate%20Data%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;Generate Data&lt;/h2&gt;-nav`)" id="&lt;h2&gt;Generate Data&lt;/h2&gt;-nav">
+									Generate Data
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%3ch2%3e1%29%20Create%20Venn%20diagrams%20using%20the%20ggven%20R%20package%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;1) Create Venn diagrams using the ggven R package&lt;/h2&gt;-nav`)" id="&lt;h2&gt;1) Create Venn diagrams using the ggven R package&lt;/h2&gt;-nav">
+									1) Create Venn diagrams using the ggven R package
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%3ch3%3e2D%20Venn%20diagram%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;2D Venn diagram&lt;/h3&gt;-nav`)" id="&lt;h3&gt;2D Venn diagram&lt;/h3&gt;-nav">
+									2D Venn diagram
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%3ch3%3e3D%20Venn%20diagram%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;3D Venn diagram&lt;/h3&gt;-nav`)" id="&lt;h3&gt;3D Venn diagram&lt;/h3&gt;-nav">
+									3D Venn diagram
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+							
+								</ul>
+							
+						
+						
+						
+							<li>
+								<a href="#%3ch2%3e2%29%20Using%20the%20ggVennDiagram%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;2) Using the ggVennDiagram&lt;/h2&gt;-nav`)" id="&lt;h2&gt;2) Using the ggVennDiagram&lt;/h2&gt;-nav">
+									2) Using the ggVennDiagram
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%3ch3%3eCustomize%20border%20and%20category%20names%20of%20the%20Venn%20diagram%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;Customize border and category names of the Venn diagram&lt;/h3&gt;-nav`)" id="&lt;h3&gt;Customize border and category names of the Venn diagram&lt;/h3&gt;-nav">
+									Customize border and category names of the Venn diagram
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+							
+								</ul>
+							
+						
+						
+						
+							<li>
+								<a href="#%3ch2%3e3%29%20Using%20the%20RAM%20package%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;3) Using the RAM package&lt;/h2&gt;-nav`)" id="&lt;h2&gt;3) Using the RAM package&lt;/h2&gt;-nav">
+									3) Using the RAM package
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%3ch2%3e4%29%20Using%20the%20VennDiagram%20Package%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;4) Using the VennDiagram Package&lt;/h2&gt;-nav`)" id="&lt;h2&gt;4) Using the VennDiagram Package&lt;/h2&gt;-nav">
+									4) Using the VennDiagram Package
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%3ch3%3eShow%20the%20intersection%20names%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;Show the intersection names&lt;/h3&gt;-nav`)" id="&lt;h3&gt;Show the intersection names&lt;/h3&gt;-nav">
+									Show the intersection names
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%3ch3%3eOver-write%20labels%20%2811%20chosen%20by%20manual%20check%20of%20labels%29%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;Over-write labels (11 chosen by manual check of labels)&lt;/h3&gt;-nav`)" id="&lt;h3&gt;Over-write labels (11 chosen by manual check of labels)&lt;/h3&gt;-nav">
+									Over-write labels (11 chosen by manual check of labels)
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+							
+								</ul>
+							
+						
+						
+						
+							<li>
+								<a href="#%3ch2%3eCustomize%20it%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;Customize it&lt;/h2&gt;-nav`)" id="&lt;h2&gt;Customize it&lt;/h2&gt;-nav">
+									Customize it
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
+</div>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div id="drawer-mask" v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav id="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div id="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a id="navTitle" class="navbar-brand" href="/">
+            Joey&#39;s Blog
+        </a>
+        
+        <button type="button" class="nav-darkmode-toggle" id="darkModeToggleButton2">
+            <i class="material-icons" id="darkModeToggleIcon2">
+                dark_mode
+            </i>
+        </button>
+        
+    </div>
+</nav>
+<div class="single-column-header-container" id="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">Joey&#39;s Blog</div>
+        
+
+    </a>
+</div>
+
+            <div id="content">
+                <div id="streamContainer" class="stream-container">
+
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            
+            
+            
+                
+            
+
+            <div class="post-head-wrapper"
+                
+                    
+                    
+                    style="background-image: url('/images/venn.png')"
+                    
+                
+            >
+                <div class="post-title">
+                    Venn Diagram
+                    
+                    <div class="post-subtitle">
+                        Create Venn Diagram with various R packages.
+                    </div>
+                    
+                    <div class="post-meta">
+                        
+                        <time itemprop="datePublished">
+                            2021-09-22 00:00
+                        </time>
+                        
+
+                        
+                            <i class="material-icons" style="">folder</i>
+                                <a href="/categories/">[R]</a>
+                                &nbsp;
+                        
+
+                        
+                            <i class="material-icons" style="">label</i>
+                            
+                                <a href="/tags/plot">plot</a>
+                                &nbsp;
+                            
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-body-wrapper">
+                
+                <div class="post-body" v-pre>
+                
+                    
+<script src="/post/venn-diagram/index_files/header-attrs/header-attrs.js"></script>
+
+
+<p>Venn Diagram can be created by various Packages:
+ggven, ggVennDiagram, RAM, and VennDiagram</p>
+<div id="generate-data" class="section level2">
+<h2>Generate Data</h2>
+<pre class="r"><code># Generate 3 sets of 200 words
+set1 &lt;- paste(rep(&quot;word_&quot; , 200) , sample(c(1:1000) , 200 , replace=F) , sep=&quot;&quot;)
+set2 &lt;- paste(rep(&quot;word_&quot; , 200) , sample(c(1:1000) , 200 , replace=F) , sep=&quot;&quot;)
+set3 &lt;- paste(rep(&quot;word_&quot; , 200) , sample(c(1:1000) , 200 , replace=F) , sep=&quot;&quot;)
+
+# List of items
+x &lt;- list(A=set1, B=set2)
+
+# List of items
+y &lt;- list(A=set1, B=set2, C=set3)
+names(y)</code></pre>
+<pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot;</code></pre>
+</div>
+<div id="create-venn-diagrams-using-the-ggven-r-package" class="section level2">
+<h2>1) Create Venn diagrams using the ggven R package</h2>
+<div id="d-venn-diagram" class="section level3">
+<h3>2D Venn diagram</h3>
+<pre class="r"><code>library(&quot;ggvenn&quot;)
+
+ggvenn(y, columns = c(&quot;A&quot;, &quot;B&quot;),stroke_size = 0.5)</code></pre>
+<p><img src="/post/venn-diagram/index_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
+<div id="d-venn-diagram-1" class="section level3">
+<h3>3D Venn diagram</h3>
+<p><img src="/post/venn-diagram/index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+</div>
+<div id="using-the-ggvenndiagram" class="section level2">
+<h2>2) Using the ggVennDiagram</h2>
+<pre class="r"><code>library(ggVennDiagram)
+# 2D Venn diagram
+ggVennDiagram(x)</code></pre>
+<p><img src="/post/venn-diagram/index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code># 3D Venn diagram
+ggVennDiagram(y)</code></pre>
+<p><img src="/post/venn-diagram/index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div id="customize-border-and-category-names-of-the-venn-diagram" class="section level3">
+<h3>Customize border and category names of the Venn diagram</h3>
+<pre class="r"><code>library(ggplot2)
+
+ggVennDiagram(y, category.names = c(&quot;Group 1&quot;,&quot;Group 2&quot;,&quot;Group 3&quot;), 
+              color = &quot;black&quot;, lwd = 0.8, lty = 1, label_alpha = 0) + 
+  scale_fill_gradient(low = &quot;yellow&quot;, high = &quot;lightblue&quot;)</code></pre>
+<p><img src="/post/venn-diagram/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+</div>
+<div id="using-the-ram-package" class="section level2">
+<h2>3) Using the RAM package</h2>
+<pre class="r"><code>library(RAM)
+group.venn(list(Group1=set1, Group2=set2), label=F, 
+           fill = c(&quot;orange&quot;, &quot;blue&quot;),
+           cat.pos = c(0, 0),
+           lab.cex=1.1)</code></pre>
+<p><img src="/post/venn-diagram/index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="using-the-venndiagram-package" class="section level2">
+<h2>4) Using the VennDiagram Package</h2>
+<pre class="r"><code>library(VennDiagram)
+
+v&lt;-venn.diagram(
+  x = list(set1, set2, set3),
+  category.names = c(&quot;Set 1&quot; , &quot;Set 2 &quot; , &quot;Set 3&quot;),
+  fill = c(&quot;orange&quot;, &quot;blue&quot;,&quot;pink&quot;),
+  alpha = c(0.5, 0.5, 0.5), cat.cex = 1.5, cex=1.5,
+  filename=NULL
+)
+
+# have a look at the default plot
+grid.newpage()
+grid.draw(v)</code></pre>
+<p><img src="/post/venn-diagram/index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<div id="show-the-intersection-names" class="section level3">
+<h3>Show the intersection names</h3>
+<pre class="r"><code># have a look at the names in the plot object v
+lapply(v,  names)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;x&quot;          &quot;y&quot;          &quot;id&quot;         &quot;id.lengths&quot; &quot;name&quot;      
+## [6] &quot;gp&quot;         &quot;vp&quot;         &quot;params&quot;    
+## 
+## [[2]]
+## [1] &quot;x&quot;          &quot;y&quot;          &quot;id&quot;         &quot;id.lengths&quot; &quot;name&quot;      
+## [6] &quot;gp&quot;         &quot;vp&quot;         &quot;params&quot;    
+## 
+## [[3]]
+## [1] &quot;x&quot;          &quot;y&quot;          &quot;id&quot;         &quot;id.lengths&quot; &quot;name&quot;      
+## [6] &quot;gp&quot;         &quot;vp&quot;         &quot;params&quot;    
+## 
+## [[4]]
+## [1] &quot;x&quot;          &quot;y&quot;          &quot;id&quot;         &quot;id.lengths&quot; &quot;name&quot;      
+## [6] &quot;gp&quot;         &quot;vp&quot;         &quot;params&quot;    
+## 
+## [[5]]
+## [1] &quot;x&quot;          &quot;y&quot;          &quot;id&quot;         &quot;id.lengths&quot; &quot;name&quot;      
+## [6] &quot;gp&quot;         &quot;vp&quot;         &quot;params&quot;    
+## 
+## [[6]]
+## [1] &quot;x&quot;          &quot;y&quot;          &quot;id&quot;         &quot;id.lengths&quot; &quot;name&quot;      
+## [6] &quot;gp&quot;         &quot;vp&quot;         &quot;params&quot;    
+## 
+## [[7]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;           
+## 
+## [[8]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;           
+## 
+## [[9]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;           
+## 
+## [[10]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;           
+## 
+## [[11]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;           
+## 
+## [[12]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;           
+## 
+## [[13]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;           
+## 
+## [[14]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;           
+## 
+## [[15]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;           
+## 
+## [[16]]
+##  [1] &quot;label&quot;         &quot;x&quot;             &quot;y&quot;             &quot;just&quot;         
+##  [5] &quot;hjust&quot;         &quot;vjust&quot;         &quot;rot&quot;           &quot;check.overlap&quot;
+##  [9] &quot;name&quot;          &quot;gp&quot;            &quot;vp&quot;</code></pre>
+<pre class="r"><code># We are interested in the labels
+lapply(v, function(i) i$label)</code></pre>
+<pre><code>## [[1]]
+## NULL
+## 
+## [[2]]
+## NULL
+## 
+## [[3]]
+## NULL
+## 
+## [[4]]
+## NULL
+## 
+## [[5]]
+## NULL
+## 
+## [[6]]
+## NULL
+## 
+## [[7]]
+## [1] &quot;130&quot;
+## 
+## [[8]]
+## [1] &quot;28&quot;
+## 
+## [[9]]
+## [1] &quot;134&quot;
+## 
+## [[10]]
+## [1] &quot;33&quot;
+## 
+## [[11]]
+## [1] &quot;9&quot;
+## 
+## [[12]]
+## [1] &quot;29&quot;
+## 
+## [[13]]
+## [1] &quot;129&quot;
+## 
+## [[14]]
+## [1] &quot;Set 1&quot;
+## 
+## [[15]]
+## [1] &quot;Set 2 &quot;
+## 
+## [[16]]
+## [1] &quot;Set 3&quot;</code></pre>
+</div>
+<div id="over-write-labels-11-chosen-by-manual-check-of-labels" class="section level3">
+<h3>Over-write labels (11 chosen by manual check of labels)</h3>
+<pre class="r"><code>v[[11]]$label&lt;- paste(intersect(intersect(set1,set2),set3), collapse=&quot;\n&quot;)  </code></pre>
+<pre class="r"><code># plot  
+grid.newpage()
+grid.draw(v)</code></pre>
+<p><img src="/post/venn-diagram/index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+</div>
+<div id="customize-it" class="section level2">
+<h2>Customize it</h2>
+<pre class="r"><code># Prepare a palette of 3 colors with R colorbrewer:
+library(RColorBrewer)
+myCol &lt;- brewer.pal(3, &quot;Pastel2&quot;)
+
+# Chart
+v2&lt;-venn.diagram(
+  x = list(set1, set2, set3),
+  category.names = c(&quot;Set 1&quot; , &quot;Set 2 &quot; , &quot;Set 3&quot;),
+  alpha = c(0.5, 0.5, 0.5), 
+  filename=NULL,
+
+  # Circles
+  lwd = 2,
+  lty = &#39;blank&#39;,
+  fill = myCol,
+  
+  # Numbers
+  cex = .6,
+  fontface = &quot;bold&quot;,
+  fontfamily = &quot;sans&quot;,
+  
+  # Set names
+  cat.cex = 1.2,
+  cat.fontface = &quot;bold&quot;,
+  cat.default.pos = &quot;outer&quot;,
+  cat.fontfamily = &quot;sans&quot;,
+  rotation = 1
+)
+
+v2[[11]]$label&lt;-paste(paste0(&#39;Intersection = &#39;,length(intersect(intersect(set1,set2),set3)),&quot;\n&quot;,
+                      paste(intersect(intersect(set1,set2),set3), collapse=&quot;\n&quot;))) 
+
+# plot  
+grid.newpage()
+grid.draw(v2)</code></pre>
+<p><img src="/post/venn-diagram/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+
+                    
+                    <HR width="100%" id="EOF">
+		    <p style="color:#777;">Last modified on 2021-09-22</p>
+                    
+                </div>
+            </div>
+            
+            
+            <nav class="post-pagination">
+
+                
+                <a class="newer-posts" href="/post/logistic-regression-in-r/">
+			Next<br>Logistic Regression in R
+                </a>
+                
+                
+                
+                <a class="older-posts" href="/post/plot-with-error-bar/">
+			Previous<br>Plot with Error Bar
+                </a>
+                
+            </nav>
+            <div class="post-comment-wrapper">
+                
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+                    </div>
+            </div><div id="single-column-footer">
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	2021 Joey&#39;s Blog
+	
+</div>
+            </div>
+    
+    <script src="/js/journal.js"></script>
+    </body>
+</html>

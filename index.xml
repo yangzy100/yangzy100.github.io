@@ -1,60 +1,751 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Joey&#39;s Blogs</title>
+    <title>Joey&#39;s Blog</title>
     <link>/</link>
-    <description>Recent content on Joey&#39;s Blogs</description>
+    <description>Recent content on Joey&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 01 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Logistic Regression in R</title>
-      <link>/2021/10/01/logistic-regression-in-r/</link>
-      <pubDate>Fri, 01 Oct 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/2021/10/01/logistic-regression-in-r/</guid>
-      <description># Load require library library(ISLR)library(plyr)library(tidyverse) # data manipulation and visualizationlibrary(modelr) # provides easy pipeline modeling functionslibrary(broom) # helps to tidy up model outputslibrary(ROCR) # ROC curve and AUClibrary(kableExtra) # generating tables in HTML formatRead in Data# Load data default &amp;lt;- as_tibble(ISLR::Default)defaultstudentbalanceincomeNoNo729.</description>
-    </item>
+    <lastBuildDate>Fri, 01 Oct 2021 00:00:00 +0000</lastBuildDate>
     
-    <item>
-      <title>Plot with Error Bar</title>
-      <link>/2021/09/22/plot-with-error-bar/</link>
-      <pubDate>Wed, 22 Sep 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/2021/09/22/plot-with-error-bar/</guid>
-      <description>IntroductionThis tutorial describes how to create a graph with error bars using R software and ggplot2 package. There are different types of error bars which can be created using the functions below :
-geom_errorbar(),geom_linerange(),geom_pointrange(),geom_crossbar(),geom_errorbarh()
-Prepare the dataToothGrowth data is used. It describes the effect of Vitamin C on tooth growth in Guinea pigs. Three dose levels of Vitamin C (0.5, 1, and 2 mg) with each of two delivery methods [orange juice (OJ) or ascorbic acid (VC)] are used :</description>
-    </item>
+        <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
-    <item>
-      <title>Venn Diagram</title>
-      <link>/2021/09/22/venn-diagram/</link>
-      <pubDate>Wed, 22 Sep 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/2021/09/22/venn-diagram/</guid>
-      <description>Venn Diagram can be created by various Packages:ggven, ggVennDiagram, RAM, and VennDiagram
-Generate Data# Generate 3 sets of 200 wordsset1 &amp;lt;- paste(rep(&amp;quot;word_&amp;quot; , 200) , sample(c(1:1000) , 200 , replace=F) , sep=&amp;quot;&amp;quot;)set2 &amp;lt;- paste(rep(&amp;quot;word_&amp;quot; , 200) , sample(c(1:1000) , 200 , replace=F) , sep=&amp;quot;&amp;quot;)set3 &amp;lt;- paste(rep(&amp;quot;word_&amp;quot; , 200) , sample(c(1:1000) , 200 , replace=F) , sep=&amp;quot;&amp;quot;)# List of itemsx &amp;lt;- list(A=set1, B=set2)# List of itemsy &amp;lt;- list(A=set1, B=set2, C=set3)names(y)## [1] &amp;quot;A&amp;quot; &amp;quot;B&amp;quot; &amp;quot;C&amp;quot;1) Create Venn diagrams using the ggven R package2D Venn diagramlibrary(&amp;quot;ggvenn&amp;quot;)ggvenn(y, columns = c(&amp;quot;A&amp;quot;, &amp;quot;B&amp;quot;),stroke_size = 0.</description>
-    </item>
     
-    <item>
-      <title>About</title>
-      <link>/about/</link>
-      <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
-      
-      <guid>/about/</guid>
-      <description>This is my blogs website, which will include statistical methods and data visualization from some projects I worked before. All data and codes can be downloaded from my Github.</description>
-    </item>
     
-    <item>
-      <title>More will Come</title>
-      <link>/1/01/01/more-will-come/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/more-will-come/</guid>
-      <description>More Projects will be posted occasionally. Please come back later.
-Thank You !</description>
-    </item>
+        <item>
+        <title>Logistic Regression in R</title>
+        <link>/post/logistic-regression-in-r/</link>
+        <pubDate>Fri, 01 Oct 2021 00:00:00 +0000</pubDate>
+        
+        <guid>/post/logistic-regression-in-r/</guid>
+        <description>Joey&#39;s Blog /post/logistic-regression-in-r/ -
+&lt;script src=&#34;/post/logistic-regression-in-r/index_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;/post/logistic-regression-in-r/index_files/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;/post/logistic-regression-in-r/index_files/lightable/lightable.css&#34; rel=&#34;stylesheet&#34; /&gt;
+
+
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Load require library 
+library(ISLR)
+library(plyr)
+library(tidyverse)  # data manipulation and visualization
+library(modelr)     # provides easy pipeline modeling functions
+library(broom)      # helps to tidy up model outputs
+library(ROCR)       # ROC curve and AUC
+library(kableExtra) # generating tables in HTML format&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;read-in-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Read in Data&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Load data 
+default &amp;lt;- as_tibble(ISLR::Default)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34; lightable-classic&#34; style=&#34;font-family: Cambria; width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+default
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+student
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+balance
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+income
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+729.5265
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+44361.625
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Yes
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+817.1804
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+12106.135
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1073.5492
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+31767.139
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+529.2506
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+35704.494
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+785.6559
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+38463.496
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Yes
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+919.5885
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+7491.559
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Check missing values for the data
+sapply(default, function(x) sum(is.na(x))) &lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## default student balance  income 
+##       0       0       0       0&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;split data into a training (60%) and testing (40%) data sets&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(123)
+sample &amp;lt;- sample(c(TRUE, FALSE), nrow(default), replace = T, prob = c(0.6,0.4))
+train &amp;lt;- default[sample, ]
+test &amp;lt;- default[!sample, ]&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;logistic-regression&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Logistic Regression&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Full model
+full.glm&amp;lt;-glm(default~., family=binomial, data=train)
+summary(full.glm)$coefficients&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##                  Estimate   Std. Error     z value     Pr(&amp;gt;|z|)
+## (Intercept) -1.090704e+01 6.480739e-01 -16.8299277 1.472817e-63
+## studentYes  -8.094789e-01 3.133150e-01  -2.5835947 9.777661e-03
+## balance      5.907134e-03 3.102425e-04  19.0403764 7.895817e-81
+## income      -5.012701e-06 1.078617e-05  -0.4647343 6.421217e-01&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;we can see that income is not significant, drop it out in the model.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Final model
+Final.glm&amp;lt;-glm(default~.-income, family=binomial, data=train)
+summary(Final.glm)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## glm(formula = default ~ . - income, family = binomial, data = train)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.4736  -0.1338  -0.0501  -0.0174   3.4114  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&amp;gt;|z|)    
+## (Intercept) -11.101501   0.499246 -22.237  &amp;lt; 2e-16 ***
+## studentYes   -0.694833   0.194184  -3.578 0.000346 ***
+## balance       0.005902   0.000310  19.039  &amp;lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1723.03  on 6046  degrees of freedom
+## Residual deviance:  895.23  on 6044  degrees of freedom
+## AIC: 901.23
+## 
+## Number of Fisher Scoring iterations: 8&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;From the coefficients result we can see that both balance and student are statistically significant. In addition, The logistic regression coefficients give the change in the log odds of the outcome for a one unit increase in the predictor variable.&lt;/p&gt;
+&lt;p&gt;for every one unit change in balance, the log odds of default increase by 0.0059.
+for student (vs non-student), changes the log odds of default by -0.6948.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;plot-the-logistic-regression-fit-line.&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Plot the Logistic Regression Fit Line.&lt;/h2&gt;
+&lt;p&gt;note that we need to convert our response variable to a [0,1] binary coded variable&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# plot
+default %&amp;gt;%
+  mutate(prob = ifelse(default == &amp;quot;Yes&amp;quot;, 1, 0)) %&amp;gt;%
+  ggplot(aes(balance, prob, fill=student)) +
+  geom_point(alpha = .15) +
+  geom_smooth(formula=&amp;#39;y ~ x&amp;#39;, method = &amp;quot;glm&amp;quot;, method.args = list(family = &amp;quot;binomial&amp;quot;)) +
+  ggtitle(&amp;quot;Logistic Regression Model Fit&amp;quot;) +
+  xlab(&amp;quot;Balance&amp;quot;) +
+  ylab(&amp;quot;Probability of Default&amp;quot;)+
+  theme_bw()+
+  theme(legend.position = c(0.1,0.8))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/logistic-regression-in-r/index_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;From the figure we can see that as the Balance increases, the probability of Default is increased. In addition, Non-student has higher probability of default.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;confusion-matrix-and-prediction-accuracy&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Confusion Matrix and Prediction Accuracy&lt;/h2&gt;
+&lt;p&gt;Build the confusion matrix, a table of actual default classification against model prediction. Use a cutoff value of 0.5&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Apply the fitted model to the test set. Print the confusion matrix and prediction accuracy.
+
+# Get predictions
+test_prob &amp;lt;- predict(Final.glm, type = &amp;quot;response&amp;quot;, newdata = test)
+test_pred &amp;lt;- ifelse(test_prob &amp;gt;= 0.5,&amp;#39;Yes&amp;#39;, &amp;#39;No&amp;#39;)
+
+test_tab=table(actuals=test$default, predicted=test_pred)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34; lightable-classic&#34; style=&#34;font-family: Cambria; width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;empty-cells: hide;&#34; colspan=&#34;1&#34;&gt;
+&lt;/th&gt;
+&lt;th style=&#34;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; &#34; colspan=&#34;2&#34;&gt;
+&lt;div style=&#34;border-bottom: 1px solid #111111; margin-bottom: -1px; &#34;&gt;
+Predicted
+&lt;/div&gt;
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+No
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+Yes
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3804
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+11
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Yes
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+101
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+37
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;test_con_mat = caret::confusionMatrix(test_tab)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34; lightable-classic&#34; style=&#34;font-family: Cambria; width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+Result
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Accuracy
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.9716671
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Sensitivity
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.9741357
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Specificity
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.7708333
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div id=&#34;roc-curve&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;ROC curve&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ROCR) 
+# ROC curve
+predROCR &amp;lt;- prediction(test_prob, test$default)
+perfROCR &amp;lt;- performance(predROCR, &amp;quot;tpr&amp;quot;, &amp;quot;fpr&amp;quot;)
+# Compute AUC
+auc&amp;lt;-performance(predROCR, &amp;quot;auc&amp;quot;)@y.values[[1]]
+
+plot(perfROCR, colorize = TRUE)
+abline(0,1,col=&amp;#39;blue&amp;#39;)
+text(x=0.5,y=0.75, col=&amp;#39;red&amp;#39;,
+     labels=paste(&amp;#39;AUC =&amp;#39;, round(auc,4)))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/logistic-regression-in-r/index_files/figure-html/unnamed-chunk-12-1.png&#34; width=&#34;672&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The AUC (area under the curve) is 0.9421, which is close to 1, indicates that the model fit the data very well.&lt;/p&gt;
+&lt;/div&gt;
+- /post/logistic-regression-in-r/ - </description>
+        </item>
+    
+    
+    
+        <item>
+        <title>Venn Diagram</title>
+        <link>/post/venn-diagram/</link>
+        <pubDate>Wed, 22 Sep 2021 00:00:00 +0000</pubDate>
+        
+        <guid>/post/venn-diagram/</guid>
+        <description>Joey&#39;s Blog /post/venn-diagram/ -
+&lt;script src=&#34;/post/venn-diagram/index_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;Venn Diagram can be created by various Packages:
+ggven, ggVennDiagram, RAM, and VennDiagram&lt;/p&gt;
+&lt;div id=&#34;generate-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Generate Data&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Generate 3 sets of 200 words
+set1 &amp;lt;- paste(rep(&amp;quot;word_&amp;quot; , 200) , sample(c(1:1000) , 200 , replace=F) , sep=&amp;quot;&amp;quot;)
+set2 &amp;lt;- paste(rep(&amp;quot;word_&amp;quot; , 200) , sample(c(1:1000) , 200 , replace=F) , sep=&amp;quot;&amp;quot;)
+set3 &amp;lt;- paste(rep(&amp;quot;word_&amp;quot; , 200) , sample(c(1:1000) , 200 , replace=F) , sep=&amp;quot;&amp;quot;)
+
+# List of items
+x &amp;lt;- list(A=set1, B=set2)
+
+# List of items
+y &amp;lt;- list(A=set1, B=set2, C=set3)
+names(y)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;A&amp;quot; &amp;quot;B&amp;quot; &amp;quot;C&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;create-venn-diagrams-using-the-ggven-r-package&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;1) Create Venn diagrams using the ggven R package&lt;/h2&gt;
+&lt;div id=&#34;d-venn-diagram&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;2D Venn diagram&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(&amp;quot;ggvenn&amp;quot;)
+
+ggvenn(y, columns = c(&amp;quot;A&amp;quot;, &amp;quot;B&amp;quot;),stroke_size = 0.5)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/venn-diagram/index_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;d-venn-diagram-1&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;3D Venn diagram&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;/post/venn-diagram/index_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;using-the-ggvenndiagram&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;2) Using the ggVennDiagram&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggVennDiagram)
+# 2D Venn diagram
+ggVennDiagram(x)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/venn-diagram/index_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# 3D Venn diagram
+ggVennDiagram(y)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/venn-diagram/index_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;customize-border-and-category-names-of-the-venn-diagram&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Customize border and category names of the Venn diagram&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
+
+ggVennDiagram(y, category.names = c(&amp;quot;Group 1&amp;quot;,&amp;quot;Group 2&amp;quot;,&amp;quot;Group 3&amp;quot;), 
+              color = &amp;quot;black&amp;quot;, lwd = 0.8, lty = 1, label_alpha = 0) + 
+  scale_fill_gradient(low = &amp;quot;yellow&amp;quot;, high = &amp;quot;lightblue&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/venn-diagram/index_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;using-the-ram-package&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;3) Using the RAM package&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(RAM)
+group.venn(list(Group1=set1, Group2=set2), label=F, 
+           fill = c(&amp;quot;orange&amp;quot;, &amp;quot;blue&amp;quot;),
+           cat.pos = c(0, 0),
+           lab.cex=1.1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/venn-diagram/index_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;using-the-venndiagram-package&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;4) Using the VennDiagram Package&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(VennDiagram)
+
+v&amp;lt;-venn.diagram(
+  x = list(set1, set2, set3),
+  category.names = c(&amp;quot;Set 1&amp;quot; , &amp;quot;Set 2 &amp;quot; , &amp;quot;Set 3&amp;quot;),
+  fill = c(&amp;quot;orange&amp;quot;, &amp;quot;blue&amp;quot;,&amp;quot;pink&amp;quot;),
+  alpha = c(0.5, 0.5, 0.5), cat.cex = 1.5, cex=1.5,
+  filename=NULL
+)
+
+# have a look at the default plot
+grid.newpage()
+grid.draw(v)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/venn-diagram/index_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;show-the-intersection-names&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Show the intersection names&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# have a look at the names in the plot object v
+lapply(v,  names)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [[1]]
+## [1] &amp;quot;x&amp;quot;          &amp;quot;y&amp;quot;          &amp;quot;id&amp;quot;         &amp;quot;id.lengths&amp;quot; &amp;quot;name&amp;quot;      
+## [6] &amp;quot;gp&amp;quot;         &amp;quot;vp&amp;quot;         &amp;quot;params&amp;quot;    
+## 
+## [[2]]
+## [1] &amp;quot;x&amp;quot;          &amp;quot;y&amp;quot;          &amp;quot;id&amp;quot;         &amp;quot;id.lengths&amp;quot; &amp;quot;name&amp;quot;      
+## [6] &amp;quot;gp&amp;quot;         &amp;quot;vp&amp;quot;         &amp;quot;params&amp;quot;    
+## 
+## [[3]]
+## [1] &amp;quot;x&amp;quot;          &amp;quot;y&amp;quot;          &amp;quot;id&amp;quot;         &amp;quot;id.lengths&amp;quot; &amp;quot;name&amp;quot;      
+## [6] &amp;quot;gp&amp;quot;         &amp;quot;vp&amp;quot;         &amp;quot;params&amp;quot;    
+## 
+## [[4]]
+## [1] &amp;quot;x&amp;quot;          &amp;quot;y&amp;quot;          &amp;quot;id&amp;quot;         &amp;quot;id.lengths&amp;quot; &amp;quot;name&amp;quot;      
+## [6] &amp;quot;gp&amp;quot;         &amp;quot;vp&amp;quot;         &amp;quot;params&amp;quot;    
+## 
+## [[5]]
+## [1] &amp;quot;x&amp;quot;          &amp;quot;y&amp;quot;          &amp;quot;id&amp;quot;         &amp;quot;id.lengths&amp;quot; &amp;quot;name&amp;quot;      
+## [6] &amp;quot;gp&amp;quot;         &amp;quot;vp&amp;quot;         &amp;quot;params&amp;quot;    
+## 
+## [[6]]
+## [1] &amp;quot;x&amp;quot;          &amp;quot;y&amp;quot;          &amp;quot;id&amp;quot;         &amp;quot;id.lengths&amp;quot; &amp;quot;name&amp;quot;      
+## [6] &amp;quot;gp&amp;quot;         &amp;quot;vp&amp;quot;         &amp;quot;params&amp;quot;    
+## 
+## [[7]]
+##  [1] &amp;quot;label&amp;quot;         &amp;quot;x&amp;quot;             &amp;quot;y&amp;quot;             &amp;quot;just&amp;quot;         
+##  [5] &amp;quot;hjust&amp;quot;         &amp;quot;vjust&amp;quot;         &amp;quot;rot&amp;quot;           &amp;quot;check.overlap&amp;quot;
+##  [9] &amp;quot;name&amp;quot;          &amp;quot;gp&amp;quot;            &amp;quot;vp&amp;quot;           
+## 
+## [[8]]
+##  [1] &amp;quot;label&amp;quot;         &amp;quot;x&amp;quot;             &amp;quot;y&amp;quot;             &amp;quot;just&amp;quot;         
+##  [5] &amp;quot;hjust&amp;quot;         &amp;quot;vjust&amp;quot;         &amp;quot;rot&amp;quot;           &amp;quot;check.overlap&amp;quot;
+##  [9] &amp;quot;name&amp;quot;          &amp;quot;gp&amp;quot;            &amp;quot;vp&amp;quot;           
+## 
+## [[9]]
+##  [1] &amp;quot;label&amp;quot;         &amp;quot;x&amp;quot;             &amp;quot;y&amp;quot;             &amp;quot;just&amp;quot;         
+##  [5] &amp;quot;hjust&amp;quot;         &amp;quot;vjust&amp;quot;         &amp;quot;rot&amp;quot;           &amp;quot;check.overlap&amp;quot;
+##  [9] &amp;quot;name&amp;quot;          &amp;quot;gp&amp;quot;            &amp;quot;vp&amp;quot;           
+## 
+## [[10]]
+##  [1] &amp;quot;label&amp;quot;         &amp;quot;x&amp;quot;             &amp;quot;y&amp;quot;             &amp;quot;just&amp;quot;         
+##  [5] &amp;quot;hjust&amp;quot;         &amp;quot;vjust&amp;quot;         &amp;quot;rot&amp;quot;           &amp;quot;check.overlap&amp;quot;
+##  [9] &amp;quot;name&amp;quot;          &amp;quot;gp&amp;quot;            &amp;quot;vp&amp;quot;           
+## 
+## [[11]]
+##  [1] &amp;quot;label&amp;quot;         &amp;quot;x&amp;quot;             &amp;quot;y&amp;quot;             &amp;quot;just&amp;quot;         
+##  [5] &amp;quot;hjust&amp;quot;         &amp;quot;vjust&amp;quot;         &amp;quot;rot&amp;quot;           &amp;quot;check.overlap&amp;quot;
+##  [9] &amp;quot;name&amp;quot;          &amp;quot;gp&amp;quot;            &amp;quot;vp&amp;quot;           
+## 
+## [[12]]
+##  [1] &amp;quot;label&amp;quot;         &amp;quot;x&amp;quot;             &amp;quot;y&amp;quot;             &amp;quot;just&amp;quot;         
+##  [5] &amp;quot;hjust&amp;quot;         &amp;quot;vjust&amp;quot;         &amp;quot;rot&amp;quot;           &amp;quot;check.overlap&amp;quot;
+##  [9] &amp;quot;name&amp;quot;          &amp;quot;gp&amp;quot;            &amp;quot;vp&amp;quot;           
+## 
+## [[13]]
+##  [1] &amp;quot;label&amp;quot;         &amp;quot;x&amp;quot;             &amp;quot;y&amp;quot;             &amp;quot;just&amp;quot;         
+##  [5] &amp;quot;hjust&amp;quot;         &amp;quot;vjust&amp;quot;         &amp;quot;rot&amp;quot;           &amp;quot;check.overlap&amp;quot;
+##  [9] &amp;quot;name&amp;quot;          &amp;quot;gp&amp;quot;            &amp;quot;vp&amp;quot;           
+## 
+## [[14]]
+##  [1] &amp;quot;label&amp;quot;         &amp;quot;x&amp;quot;             &amp;quot;y&amp;quot;             &amp;quot;just&amp;quot;         
+##  [5] &amp;quot;hjust&amp;quot;         &amp;quot;vjust&amp;quot;         &amp;quot;rot&amp;quot;           &amp;quot;check.overlap&amp;quot;
+##  [9] &amp;quot;name&amp;quot;          &amp;quot;gp&amp;quot;            &amp;quot;vp&amp;quot;           
+## 
+## [[15]]
+##  [1] &amp;quot;label&amp;quot;         &amp;quot;x&amp;quot;             &amp;quot;y&amp;quot;             &amp;quot;just&amp;quot;         
+##  [5] &amp;quot;hjust&amp;quot;         &amp;quot;vjust&amp;quot;         &amp;quot;rot&amp;quot;           &amp;quot;check.overlap&amp;quot;
+##  [9] &amp;quot;name&amp;quot;          &amp;quot;gp&amp;quot;            &amp;quot;vp&amp;quot;           
+## 
+## [[16]]
+##  [1] &amp;quot;label&amp;quot;         &amp;quot;x&amp;quot;             &amp;quot;y&amp;quot;             &amp;quot;just&amp;quot;         
+##  [5] &amp;quot;hjust&amp;quot;         &amp;quot;vjust&amp;quot;         &amp;quot;rot&amp;quot;           &amp;quot;check.overlap&amp;quot;
+##  [9] &amp;quot;name&amp;quot;          &amp;quot;gp&amp;quot;            &amp;quot;vp&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# We are interested in the labels
+lapply(v, function(i) i$label)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [[1]]
+## NULL
+## 
+## [[2]]
+## NULL
+## 
+## [[3]]
+## NULL
+## 
+## [[4]]
+## NULL
+## 
+## [[5]]
+## NULL
+## 
+## [[6]]
+## NULL
+## 
+## [[7]]
+## [1] &amp;quot;130&amp;quot;
+## 
+## [[8]]
+## [1] &amp;quot;28&amp;quot;
+## 
+## [[9]]
+## [1] &amp;quot;134&amp;quot;
+## 
+## [[10]]
+## [1] &amp;quot;33&amp;quot;
+## 
+## [[11]]
+## [1] &amp;quot;9&amp;quot;
+## 
+## [[12]]
+## [1] &amp;quot;29&amp;quot;
+## 
+## [[13]]
+## [1] &amp;quot;129&amp;quot;
+## 
+## [[14]]
+## [1] &amp;quot;Set 1&amp;quot;
+## 
+## [[15]]
+## [1] &amp;quot;Set 2 &amp;quot;
+## 
+## [[16]]
+## [1] &amp;quot;Set 3&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;over-write-labels-11-chosen-by-manual-check-of-labels&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Over-write labels (11 chosen by manual check of labels)&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;v[[11]]$label&amp;lt;- paste(intersect(intersect(set1,set2),set3), collapse=&amp;quot;\n&amp;quot;)  &lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# plot  
+grid.newpage()
+grid.draw(v)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/venn-diagram/index_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;customize-it&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Customize it&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Prepare a palette of 3 colors with R colorbrewer:
+library(RColorBrewer)
+myCol &amp;lt;- brewer.pal(3, &amp;quot;Pastel2&amp;quot;)
+
+# Chart
+v2&amp;lt;-venn.diagram(
+  x = list(set1, set2, set3),
+  category.names = c(&amp;quot;Set 1&amp;quot; , &amp;quot;Set 2 &amp;quot; , &amp;quot;Set 3&amp;quot;),
+  alpha = c(0.5, 0.5, 0.5), 
+  filename=NULL,
+
+  # Circles
+  lwd = 2,
+  lty = &amp;#39;blank&amp;#39;,
+  fill = myCol,
+  
+  # Numbers
+  cex = .6,
+  fontface = &amp;quot;bold&amp;quot;,
+  fontfamily = &amp;quot;sans&amp;quot;,
+  
+  # Set names
+  cat.cex = 1.2,
+  cat.fontface = &amp;quot;bold&amp;quot;,
+  cat.default.pos = &amp;quot;outer&amp;quot;,
+  cat.fontfamily = &amp;quot;sans&amp;quot;,
+  rotation = 1
+)
+
+v2[[11]]$label&amp;lt;-paste(paste0(&amp;#39;Intersection = &amp;#39;,length(intersect(intersect(set1,set2),set3)),&amp;quot;\n&amp;quot;,
+                      paste(intersect(intersect(set1,set2),set3), collapse=&amp;quot;\n&amp;quot;))) 
+
+# plot  
+grid.newpage()
+grid.draw(v2)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/venn-diagram/index_files/figure-html/unnamed-chunk-11-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+- /post/venn-diagram/ - </description>
+        </item>
+    
+    
+    
+        <item>
+        <title>Plot with Error Bar</title>
+        <link>/post/plot-with-error-bar/</link>
+        <pubDate>Sun, 22 Aug 2021 00:00:00 +0000</pubDate>
+        
+        <guid>/post/plot-with-error-bar/</guid>
+        <description>Joey&#39;s Blog /post/plot-with-error-bar/ -
+&lt;script src=&#34;/post/plot-with-error-bar/index_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;This tutorial describes how to create a graph with error bars using R software and ggplot2 package. There are different types of error bars which can be created using the functions below :&lt;/p&gt;
+&lt;p&gt;geom_errorbar(),
+geom_linerange(),
+geom_pointrange(),
+geom_crossbar(),
+geom_errorbarh()&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;prepare-the-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Prepare the data&lt;/h2&gt;
+&lt;p&gt;ToothGrowth data is used. It describes the effect of Vitamin C on tooth growth in Guinea pigs. Three dose levels of Vitamin C (0.5, 1, and 2 mg) with each of two delivery methods [orange juice (OJ) or ascorbic acid (VC)] are used :&lt;/p&gt;
+&lt;p&gt;len : Tooth length
+dose : Dose in milligrams (0.5, 1, 2)
+supp : Supplement type (VC or OJ)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
+df &amp;lt;- ToothGrowth
+df$dose &amp;lt;- as.factor(df$dose)
+head(df)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    len supp dose
+## 1  4.2   VC  0.5
+## 2 11.5   VC  0.5
+## 3  7.3   VC  0.5
+## 4  5.8   VC  0.5
+## 5  6.4   VC  0.5
+## 6 10.0   VC  0.5&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#First, the helper function below will be used to calculate the mean and the standard deviation, for the variable of interest, in each group :
+#+++++++++++++++++++++++++
+# Function to calculate the mean and the standard deviation
+  # for each group
+#+++++++++++++++++++++++++
+# data : a data frame
+# varname : the name of a column containing the variable
+  #to be summariezed
+# groupnames : vector of column names to be used as
+  # grouping variables
+data_summary &amp;lt;- function(data, varname, groupnames){
+  require(plyr)
+  summary_func &amp;lt;- function(x, col){
+    c(mean = mean(x[[col]], na.rm=TRUE),
+      sd = sd(x[[col]], na.rm=TRUE))
+  }
+  data_sum&amp;lt;-ddply(data, groupnames, .fun=summary_func,
+                  varname)
+  data_sum &amp;lt;- rename(data_sum, c(&amp;quot;mean&amp;quot; = varname))
+ return(data_sum)
+}
+
+df2 &amp;lt;- data_summary(ToothGrowth, varname=&amp;quot;len&amp;quot;, 
+                    groupnames=c(&amp;quot;supp&amp;quot;, &amp;quot;dose&amp;quot;))
+# Convert dose to a factor variable
+df2$dose=as.factor(df2$dose)
+head(df2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   supp dose   len       sd
+## 1   OJ  0.5 13.23 4.459709
+## 2   OJ    1 22.70 3.910953
+## 3   OJ    2 26.06 2.655058
+## 4   VC  0.5  7.98 2.746634
+## 5   VC    1 16.77 2.515309
+## 6   VC    2 26.14 4.797731&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;barplot-with-error-bars&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;1) Barplot with error bars&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
+# Default bar plot
+p&amp;lt;- ggplot(df2, aes(x=dose, y=len, fill=supp)) + 
+  geom_bar(stat=&amp;quot;identity&amp;quot;, color=&amp;quot;black&amp;quot;, 
+           position=position_dodge()) +
+  geom_errorbar(aes(ymin=len-sd, ymax=len+sd), width=.2,
+                 position=position_dodge(.9)) 
+print(p)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/plot-with-error-bar/index_files/figure-html/Basic%20bar%20plot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;customized-bar-plot&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Customized bar plot&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;p+labs(title=&amp;quot;Tooth length per dose&amp;quot;, x=&amp;quot;Dose (mg)&amp;quot;, y = &amp;quot;Length&amp;quot;)+
+   theme_classic() +
+   scale_fill_manual(values=c(&amp;#39;#999999&amp;#39;,&amp;#39;#E69F00&amp;#39;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/plot-with-error-bar/index_files/figure-html/Customized%20bar%20plot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;line-plot-with-error-bars&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;2) Line plot with error bars&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Default line plot
+p&amp;lt;- ggplot(df2, aes(x=dose, y=len, group=supp, color=supp)) + 
+  geom_line() +
+  geom_point()+
+  geom_errorbar(aes(ymin=len-sd, ymax=len+sd), width=.2,
+                 position=position_dodge(0.05))
+print(p)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/plot-with-error-bar/index_files/figure-html/Line%20plot%200-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;customized-line-plot&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Customized line plot&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;p+labs(title=&amp;quot;Tooth length per dose&amp;quot;, x=&amp;quot;Dose (mg)&amp;quot;, y = &amp;quot;Length&amp;quot;)+
+   theme_classic() +
+   scale_color_manual(values=c(&amp;#39;#999999&amp;#39;,&amp;#39;#E69F00&amp;#39;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/plot-with-error-bar/index_files/figure-html/Line%20plot%201-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;You can also use the functions geom_pointrange() or geom_linerange() instead of using geom_errorbar()&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;use-geom_pointrange&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Use geom_pointrange&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(df2, aes(x=dose, y=len, group=supp, color=supp)) + 
+geom_pointrange(aes(ymin=len-sd, ymax=len+sd))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/plot-with-error-bar/index_files/figure-html/Line%20plot%202-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;use-geom_linegeom_pointrange&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Use geom_line()+geom_pointrange()&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(df2, aes(x=dose, y=len, group=supp, color=supp)) + 
+  geom_line()+
+  geom_pointrange(aes(ymin=len-sd, ymax=len+sd))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/plot-with-error-bar/index_files/figure-html/Line%20Plot%203-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;dot-plot-with-mean-point-and-error-bars&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;3) Dot plot with mean point and error bars&lt;/h2&gt;
+&lt;p&gt;The functions geom_dotplot() and stat_summary() are used :&lt;/p&gt;
+&lt;p&gt;The mean +/- SD can be added as a crossbar, a error bar or a pointrange:&lt;/p&gt;
+&lt;div id=&#34;use-crossbar&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;use crossbar&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;p &amp;lt;- ggplot(df, aes(x=dose, y=len)) + 
+    geom_dotplot(binaxis=&amp;#39;y&amp;#39;, stackdir=&amp;#39;center&amp;#39;)
+
+p + stat_summary(fun.data=&amp;quot;mean_sdl&amp;quot;, fun.args = list(mult=1), 
+                 geom=&amp;quot;crossbar&amp;quot;, width=0.5) + theme_classic()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/plot-with-error-bar/index_files/figure-html/box_Plot1-1.png&#34; width=&#34;672&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;use-errorbar&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;use errorbar&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;p + stat_summary(fun.data=&amp;quot;mean_sdl&amp;quot;, fun.args = list(mult=1), 
+                 geom=&amp;quot;errorbar&amp;quot;, width=0.5) + theme_classic()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/plot-with-error-bar/index_files/figure-html/box_Plot2-1.png&#34; width=&#34;672&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+- /post/plot-with-error-bar/ - </description>
+        </item>
+    
+    
+    
+        <item>
+        <title>About</title>
+        <link>/about/</link>
+        <pubDate>Wed, 05 May 2021 21:48:51 -0700</pubDate>
+        
+        <guid>/about/</guid>
+        <description>Joey&#39;s Blog /about/ -&lt;p&gt;This is my blogs website, which will include statistical methods and data visualization from some projects I worked before. All data and codes can be downloaded from my &lt;a href=&#34;https://github.com/yangzy100&#34;&gt;Github&lt;/a&gt;.&lt;/p&gt;
+- /about/ - </description>
+        </item>
+    
     
   </channel>
-</rss>
+</rss> 

@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>plot on Joey&#39;s Blogs</title>
+    <title>plot on Joey&#39;s Blog</title>
     <link>/tags/plot/</link>
-    <description>Recent content in plot on Joey&#39;s Blogs</description>
+    <description>Recent content in plot on Joey&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 01 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/plot/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Logistic Regression in R</title>
-      <link>/2021/10/01/logistic-regression-in-r/</link>
+      <link>/post/logistic-regression-in-r/</link>
       <pubDate>Fri, 01 Oct 2021 00:00:00 +0000</pubDate>
       
-      <guid>/2021/10/01/logistic-regression-in-r/</guid>
+      <guid>/post/logistic-regression-in-r/</guid>
       <description># Load require library library(ISLR)library(plyr)library(tidyverse) # data manipulation and visualizationlibrary(modelr) # provides easy pipeline modeling functionslibrary(broom) # helps to tidy up model outputslibrary(ROCR) # ROC curve and AUClibrary(kableExtra) # generating tables in HTML formatRead in Data# Load data default &amp;lt;- as_tibble(ISLR::Default)defaultstudentbalanceincomeNoNo729.</description>
     </item>
     
     <item>
-      <title>Plot with Error Bar</title>
-      <link>/2021/09/22/plot-with-error-bar/</link>
+      <title>Venn Diagram</title>
+      <link>/post/venn-diagram/</link>
       <pubDate>Wed, 22 Sep 2021 00:00:00 +0000</pubDate>
       
-      <guid>/2021/09/22/plot-with-error-bar/</guid>
-      <description>IntroductionThis tutorial describes how to create a graph with error bars using R software and ggplot2 package. There are different types of error bars which can be created using the functions below :
-geom_errorbar(),geom_linerange(),geom_pointrange(),geom_crossbar(),geom_errorbarh()
-Prepare the dataToothGrowth data is used. It describes the effect of Vitamin C on tooth growth in Guinea pigs. Three dose levels of Vitamin C (0.5, 1, and 2 mg) with each of two delivery methods [orange juice (OJ) or ascorbic acid (VC)] are used :</description>
+      <guid>/post/venn-diagram/</guid>
+      <description>Venn Diagram can be created by various Packages:ggven, ggVennDiagram, RAM, and VennDiagram
+Generate Data# Generate 3 sets of 200 wordsset1 &amp;lt;- paste(rep(&amp;quot;word_&amp;quot; , 200) , sample(c(1:1000) , 200 , replace=F) , sep=&amp;quot;&amp;quot;)set2 &amp;lt;- paste(rep(&amp;quot;word_&amp;quot; , 200) , sample(c(1:1000) , 200 , replace=F) , sep=&amp;quot;&amp;quot;)set3 &amp;lt;- paste(rep(&amp;quot;word_&amp;quot; , 200) , sample(c(1:1000) , 200 , replace=F) , sep=&amp;quot;&amp;quot;)# List of itemsx &amp;lt;- list(A=set1, B=set2)# List of itemsy &amp;lt;- list(A=set1, B=set2, C=set3)names(y)## [1] &amp;quot;A&amp;quot; &amp;quot;B&amp;quot; &amp;quot;C&amp;quot;1) Create Venn diagrams using the ggven R package2D Venn diagramlibrary(&amp;quot;ggvenn&amp;quot;)ggvenn(y, columns = c(&amp;quot;A&amp;quot;, &amp;quot;B&amp;quot;),stroke_size = 0.</description>
     </item>
     
     <item>
-      <title>Venn Diagram</title>
-      <link>/2021/09/22/venn-diagram/</link>
-      <pubDate>Wed, 22 Sep 2021 00:00:00 +0000</pubDate>
+      <title>Plot with Error Bar</title>
+      <link>/post/plot-with-error-bar/</link>
+      <pubDate>Sun, 22 Aug 2021 00:00:00 +0000</pubDate>
       
-      <guid>/2021/09/22/venn-diagram/</guid>
-      <description>Venn Diagram can be created by various Packages:ggven, ggVennDiagram, RAM, and VennDiagram
-Generate Data# Generate 3 sets of 200 wordsset1 &amp;lt;- paste(rep(&amp;quot;word_&amp;quot; , 200) , sample(c(1:1000) , 200 , replace=F) , sep=&amp;quot;&amp;quot;)set2 &amp;lt;- paste(rep(&amp;quot;word_&amp;quot; , 200) , sample(c(1:1000) , 200 , replace=F) , sep=&amp;quot;&amp;quot;)set3 &amp;lt;- paste(rep(&amp;quot;word_&amp;quot; , 200) , sample(c(1:1000) , 200 , replace=F) , sep=&amp;quot;&amp;quot;)# List of itemsx &amp;lt;- list(A=set1, B=set2)# List of itemsy &amp;lt;- list(A=set1, B=set2, C=set3)names(y)## [1] &amp;quot;A&amp;quot; &amp;quot;B&amp;quot; &amp;quot;C&amp;quot;1) Create Venn diagrams using the ggven R package2D Venn diagramlibrary(&amp;quot;ggvenn&amp;quot;)ggvenn(y, columns = c(&amp;quot;A&amp;quot;, &amp;quot;B&amp;quot;),stroke_size = 0.</description>
+      <guid>/post/plot-with-error-bar/</guid>
+      <description>IntroductionThis tutorial describes how to create a graph with error bars using R software and ggplot2 package. There are different types of error bars which can be created using the functions below :
+geom_errorbar(),geom_linerange(),geom_pointrange(),geom_crossbar(),geom_errorbarh()
+Prepare the dataToothGrowth data is used. It describes the effect of Vitamin C on tooth growth in Guinea pigs. Three dose levels of Vitamin C (0.5, 1, and 2 mg) with each of two delivery methods [orange juice (OJ) or ascorbic acid (VC)] are used :</description>
     </item>
     
   </channel>

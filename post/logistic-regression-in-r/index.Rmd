@@ -1,0 +1,143 @@
+---
+title: Logistic Regression in R
+author: Joey Yang
+date: '2021-10-01'
+featured_image: "/images/logistic.png"
+description: Logistic Regression - Step by Step.
+slug: logistic-regression-in-r
+categories:
+  - R
+tags:
+  - Plot
+  - Logistic Regression
+
+---
+
+```{r message=FALSE}
+# Load require library 
+library(ISLR)
+library(plyr)
+library(tidyverse)  # data manipulation and visualization
+library(modelr)     # provides easy pipeline modeling functions
+library(broom)      # helps to tidy up model outputs
+library(ROCR)       # ROC curve and AUC
+library(kableExtra) # generating tables in HTML format
+```
+
+## Read in Data
+
+```{r data}
+# Load data 
+default <- as_tibble(ISLR::Default)
+```
+```{r echo=FALSE}
+head(default) %>%
+  kbl() %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+
+```
+```{r}
+# Check missing values for the data
+sapply(default, function(x) sum(is.na(x))) 
+```
+
+split data into a training (60%) and testing (40%) data sets 
+
+```{r}
+set.seed(123)
+sample <- sample(c(TRUE, FALSE), nrow(default), replace = T, prob = c(0.6,0.4))
+train <- default[sample, ]
+test <- default[!sample, ]
+```
+
+## Logistic Regression
+
+```{r message=FALSE}
+#Full model
+full.glm<-glm(default~., family=binomial, data=train)
+summary(full.glm)$coefficients
+```
+
+we can see that income is not significant, drop it out in the model. 
+
+```{r message=FALSE}
+#Final model
+Final.glm<-glm(default~.-income, family=binomial, data=train)
+summary(Final.glm)
+```
+
+From the coefficients result we can see that both balance and student are statistically significant. In addition, The logistic regression coefficients give the change in the log odds of the outcome for a one unit increase in the predictor variable.
+
+for every one unit change in balance, the log odds of default increase by 0.0059.
+for student (vs non-student), changes the log odds of default by -0.6948. 
+
+## Plot the Logistic Regression Fit Line.
+
+note that we need to convert our response variable to a [0,1] binary coded variable
+
+```{r fig.align = 'center'}
+# plot
+default %>%
+  mutate(prob = ifelse(default == "Yes", 1, 0)) %>%
+  ggplot(aes(balance, prob, fill=student)) +
+  geom_point(alpha = .15) +
+  geom_smooth(formula='y ~ x', method = "glm", method.args = list(family = "binomial")) +
+  ggtitle("Logistic Regression Model Fit") +
+  xlab("Balance") +
+  ylab("Probability of Default")+
+  theme_bw()+
+  theme(legend.position = c(0.1,0.8))
+```
+
+From the figure we can see that as the Balance increases, the probability of Default is increased. In addition, Non-student has higher probability of default. 
+
+## Confusion Matrix and Prediction Accuracy
+
+Build the confusion matrix, a table of actual default classification against model prediction. Use a cutoff value of 0.5
+
+```{r}
+#Apply the fitted model to the test set. Print the confusion matrix and prediction accuracy.
+
+# Get predictions
+test_prob <- predict(Final.glm, type = "response", newdata = test)
+test_pred <- ifelse(test_prob >= 0.5,'Yes', 'No')
+
+test_tab=table(actuals=test$default, predicted=test_pred)
+```
+
+```{r, echo=FALSE}
+test_tab%>%
+  kable() %>%
+  kable_classic(full_width = F, html_font = "Cambria") %>%
+  add_header_above(header = c(" "=1, "Predicted"=2))
+```
+```{r}
+test_con_mat = caret::confusionMatrix(test_tab)
+```
+
+```{r, echo=FALSE}
+#prediction accuracy
+c(test_con_mat$overall["Accuracy"], 
+  test_con_mat$byClass["Sensitivity"], 
+  test_con_mat$byClass["Specificity"])%>%
+  kable(col.names='Result') %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+```
+
+## ROC curve
+
+```{r fig.align = 'center'}
+library(ROCR) 
+# ROC curve
+predROCR <- prediction(test_prob, test$default)
+perfROCR <- performance(predROCR, "tpr", "fpr")
+# Compute AUC
+auc<-performance(predROCR, "auc")@y.values[[1]]
+
+plot(perfROCR, colorize = TRUE)
+abline(0,1,col='blue')
+text(x=0.5,y=0.75, col='red',
+     labels=paste('AUC =', round(auc,4)))
+```
+
+The AUC (area under the curve) is 0.9421, which is close to 1, indicates that the model fit the data very well. 

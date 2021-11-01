@@ -1,0 +1,147 @@
+---
+title: Plot with Error Bar
+author: Joey Yang
+date: '2021-08-22'
+featured_image: "/images/barplot.png"
+description: Add error bar to box plot, bar plot, etc.
+slug: plot-with-error-bar
+categories:
+  - R
+tags:
+  - plot
+
+---
+
+## Introduction
+
+This tutorial describes how to create a graph with error bars using R software and ggplot2 package. There are different types of error bars which can be created using the functions below :
+
+geom_errorbar(),
+geom_linerange(),
+geom_pointrange(),
+geom_crossbar(),
+geom_errorbarh()
+
+## Prepare the data
+ToothGrowth data is used. It describes the effect of Vitamin C on tooth growth in Guinea pigs. Three dose levels of Vitamin C (0.5, 1, and 2 mg) with each of two delivery methods [orange juice (OJ) or ascorbic acid (VC)] are used :  
+
+len : Tooth length
+dose : Dose in milligrams (0.5, 1, 2)
+supp : Supplement type (VC or OJ)
+
+```{r load-data, message=FALSE}
+library(ggplot2)
+df <- ToothGrowth
+df$dose <- as.factor(df$dose)
+head(df)
+```
+
+
+```{r Mean and SD, message=FALSE}
+#First, the helper function below will be used to calculate the mean and the standard deviation, for the variable of interest, in each group :
+#+++++++++++++++++++++++++
+# Function to calculate the mean and the standard deviation
+  # for each group
+#+++++++++++++++++++++++++
+# data : a data frame
+# varname : the name of a column containing the variable
+  #to be summariezed
+# groupnames : vector of column names to be used as
+  # grouping variables
+data_summary <- function(data, varname, groupnames){
+  require(plyr)
+  summary_func <- function(x, col){
+    c(mean = mean(x[[col]], na.rm=TRUE),
+      sd = sd(x[[col]], na.rm=TRUE))
+  }
+  data_sum<-ddply(data, groupnames, .fun=summary_func,
+                  varname)
+  data_sum <- rename(data_sum, c("mean" = varname))
+ return(data_sum)
+}
+
+df2 <- data_summary(ToothGrowth, varname="len", 
+                    groupnames=c("supp", "dose"))
+# Convert dose to a factor variable
+df2$dose=as.factor(df2$dose)
+head(df2)
+```
+
+
+## 1) Barplot with error bars
+
+```{r Basic bar plot, message=FALSE}
+library(ggplot2)
+# Default bar plot
+p<- ggplot(df2, aes(x=dose, y=len, fill=supp)) + 
+  geom_bar(stat="identity", color="black", 
+           position=position_dodge()) +
+  geom_errorbar(aes(ymin=len-sd, ymax=len+sd), width=.2,
+                 position=position_dodge(.9)) 
+print(p)
+```
+
+### Customized bar plot
+```{r Customized bar plot, message=FALSE}
+
+p+labs(title="Tooth length per dose", x="Dose (mg)", y = "Length")+
+   theme_classic() +
+   scale_fill_manual(values=c('#999999','#E69F00'))
+```
+
+## 2) Line plot with error bars
+
+```{r Line plot 0, message=FALSE}
+# Default line plot
+p<- ggplot(df2, aes(x=dose, y=len, group=supp, color=supp)) + 
+  geom_line() +
+  geom_point()+
+  geom_errorbar(aes(ymin=len-sd, ymax=len+sd), width=.2,
+                 position=position_dodge(0.05))
+print(p)
+```
+
+### Customized line plot
+
+```{r Line plot 1, message=FALSE}
+p+labs(title="Tooth length per dose", x="Dose (mg)", y = "Length")+
+   theme_classic() +
+   scale_color_manual(values=c('#999999','#E69F00'))
+```
+
+You can also use the functions geom_pointrange() or geom_linerange() instead of using geom_errorbar() 
+
+### Use geom_pointrange
+```{r Line Plot 2, message=FALSE}
+ggplot(df2, aes(x=dose, y=len, group=supp, color=supp)) + 
+geom_pointrange(aes(ymin=len-sd, ymax=len+sd))
+```
+
+### Use geom_line()+geom_pointrange()
+
+```{r Line Plot 3, message=FALSE}
+ggplot(df2, aes(x=dose, y=len, group=supp, color=supp)) + 
+  geom_line()+
+  geom_pointrange(aes(ymin=len-sd, ymax=len+sd))
+```
+
+## 3) Dot plot with mean point and error bars
+The functions geom_dotplot() and stat_summary() are used :
+
+The mean +/- SD can be added as a crossbar, a error bar or a pointrange:
+
+### use crossbar
+```{r box_Plot1, message=FALSE, fig.align="center"}
+p <- ggplot(df, aes(x=dose, y=len)) + 
+    geom_dotplot(binaxis='y', stackdir='center')
+
+p + stat_summary(fun.data="mean_sdl", fun.args = list(mult=1), 
+                 geom="crossbar", width=0.5) + theme_classic()
+```
+
+### use errorbar
+```{r box_Plot2, message=FALSE, fig.align="center"}
+p + stat_summary(fun.data="mean_sdl", fun.args = list(mult=1), 
+                 geom="errorbar", width=0.5) + theme_classic()
+```
+

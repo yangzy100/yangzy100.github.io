@@ -1,0 +1,168 @@
+---
+title: Venn Diagram
+author: Joey Yang
+date: '2021-09-22'
+featured_image: "/images/venn.png"
+description: Create Venn Diagram with various R packages.
+slug: venn-diagram
+categories:
+  - R
+tags:
+  - plot
+output:
+  prettydoc::html_pretty:
+  #  theme: lumen
+  #rmarkdown::html_document:
+  theme: architect
+
+---
+
+Venn Diagram can be created by various Packages:
+ggven, ggVennDiagram, RAM, and VennDiagram
+
+## Generate Data
+
+```{r data}
+# Generate 3 sets of 200 words
+set1 <- paste(rep("word_" , 200) , sample(c(1:1000) , 200 , replace=F) , sep="")
+set2 <- paste(rep("word_" , 200) , sample(c(1:1000) , 200 , replace=F) , sep="")
+set3 <- paste(rep("word_" , 200) , sample(c(1:1000) , 200 , replace=F) , sep="")
+
+# List of items
+x <- list(A=set1, B=set2)
+
+# List of items
+y <- list(A=set1, B=set2, C=set3)
+names(y)
+```
+## 1) Create Venn diagrams using the ggven R package
+
+### 2D Venn diagram
+
+```{r message=FALSE}
+library("ggvenn")
+
+ggvenn(y, columns = c("A", "B"),stroke_size = 0.5)
+```
+
+### 3D Venn diagram
+
+```{r,echo=FALSE}
+# plot
+ggvenn(y, stroke_size = 0.5)
+
+```
+
+## 2) Using the ggVennDiagram
+
+```{r message=FALSE}
+library(ggVennDiagram)
+# 2D Venn diagram
+ggVennDiagram(x)
+```
+
+```{r}
+# 3D Venn diagram
+ggVennDiagram(y)
+```
+
+### Customize border and category names of the Venn diagram
+```{r message=FALSE}
+library(ggplot2)
+
+ggVennDiagram(y, category.names = c("Group 1","Group 2","Group 3"), 
+              color = "black", lwd = 0.8, lty = 1, label_alpha = 0) + 
+  scale_fill_gradient(low = "yellow", high = "lightblue")
+```
+
+
+## 3) Using the RAM package
+
+```{r message=FALSE}
+library(RAM)
+group.venn(list(Group1=set1, Group2=set2), label=F, 
+           fill = c("orange", "blue"),
+           cat.pos = c(0, 0),
+           lab.cex=1.1)
+```
+
+## 4) Using the VennDiagram Package
+
+```{r message=FALSE}
+library(VennDiagram)
+
+v<-venn.diagram(
+  x = list(set1, set2, set3),
+  category.names = c("Set 1" , "Set 2 " , "Set 3"),
+  fill = c("orange", "blue","pink"),
+  alpha = c(0.5, 0.5, 0.5), cat.cex = 1.5, cex=1.5,
+  filename=NULL
+)
+
+# have a look at the default plot
+grid.newpage()
+grid.draw(v)
+
+```
+
+### Show the intersection names
+
+```{r message=FALSE}
+# have a look at the names in the plot object v
+lapply(v,  names)
+# We are interested in the labels
+lapply(v, function(i) i$label)
+```
+
+### Over-write labels (11 chosen by manual check of labels)
+
+```{r message=FALSE}
+v[[11]]$label<- paste(intersect(intersect(set1,set2),set3), collapse="\n")  
+```
+
+```{r message=FALSE}
+# plot  
+grid.newpage()
+grid.draw(v)
+```
+
+## Customize it
+```{r message=FALSE}
+# Prepare a palette of 3 colors with R colorbrewer:
+library(RColorBrewer)
+myCol <- brewer.pal(3, "Pastel2")
+
+# Chart
+v2<-venn.diagram(
+  x = list(set1, set2, set3),
+  category.names = c("Set 1" , "Set 2 " , "Set 3"),
+  alpha = c(0.5, 0.5, 0.5), 
+  filename=NULL,
+
+  # Circles
+  lwd = 2,
+  lty = 'blank',
+  fill = myCol,
+  
+  # Numbers
+  cex = .6,
+  fontface = "bold",
+  fontfamily = "sans",
+  
+  # Set names
+  cat.cex = 1.2,
+  cat.fontface = "bold",
+  cat.default.pos = "outer",
+  cat.fontfamily = "sans",
+  rotation = 1
+)
+
+v2[[11]]$label<-paste(paste0('Intersection = ',length(intersect(intersect(set1,set2),set3)),"\n",
+                      paste(intersect(intersect(set1,set2),set3), collapse="\n"))) 
+
+# plot  
+grid.newpage()
+grid.draw(v2)
+
+```
+

@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html><head>
+<title>Plot with Error Bar</title>
+
+
+
+
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="google-site-verification" content="">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="telephone=no" name="format-detection">
+<meta name="description" content="Add error bar to box plot, bar plot, etc.">
+<meta name="renderer" content="webkit">
+<meta name="theme-color" content="#ffffff">
+
+
+
+
+
+
+
+
+
+
+
+<link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/journal.min.3f72a5fc8f5b5dd732a4b476aced0eece2156958d9d414316494ddb10593ddf7.css" integrity="sha256-P3Kl/I9bXdcypLR2rO0O7OIVaVjZ1BQxZJTdsQWT3fc=" media="screen">
+
+
+
+<link rel="stylesheet" href="/scss/dark-mode.min.f7c2efa7183435a6bd1842f91c541481c7a5137b5991629a870f24e4a516ad4b.css" integrity="sha256-98Lvpxg0Naa9GEL5HFQUgcelE3tZkWKahw8k5KUWrUs=" media="screen">
+
+
+<script src="/vendor/js/loadCSS.js"></script>
+<script>
+  loadCSS("https://fonts.googleapis.com/css?family=Fira+Mono|Material+Icons");
+</script>
+
+
+
+
+
+
+  <script src="/js/toc.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    	<div id="app"><div id="sideContainer" class="side-container">
+    
+    <a class="a-block nav-head false" href="/">
+    
+        <div class="nav-title">
+            Joey&#39;s Blog
+        </div>
+        
+    </a>
+
+    <div class="nav-link-list">
+        
+        
+            
+            
+            
+                
+            
+            
+            
+            <a class="a-block nav-link-item active" href="/post/">
+                Posts
+            </a>
+            
+        
+            
+            
+            
+            
+            
+            <a class="a-block nav-link-item false" href="/about/">
+                About
+            </a>
+            
+        
+    </div>
+
+    
+
+    <div class="nav-footer">
+        
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	2021 Joey&#39;s Blog
+	
+
+    </div>
+    
+</div><div id="extraContainer" class="extra-container">
+    
+    
+    <div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%3ch2%3eIntroduction%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;Introduction&lt;/h2&gt;-nav`)" id="&lt;h2&gt;Introduction&lt;/h2&gt;-nav">
+									Introduction
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%3ch2%3ePrepare%20the%20data%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;Prepare the data&lt;/h2&gt;-nav`)" id="&lt;h2&gt;Prepare the data&lt;/h2&gt;-nav">
+									Prepare the data
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%3ch2%3e1%29%20Barplot%20with%20error%20bars%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;1) Barplot with error bars&lt;/h2&gt;-nav`)" id="&lt;h2&gt;1) Barplot with error bars&lt;/h2&gt;-nav">
+									1) Barplot with error bars
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%3ch3%3eCustomized%20bar%20plot%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;Customized bar plot&lt;/h3&gt;-nav`)" id="&lt;h3&gt;Customized bar plot&lt;/h3&gt;-nav">
+									Customized bar plot
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+							
+								</ul>
+							
+						
+						
+						
+							<li>
+								<a href="#%3ch2%3e2%29%20Line%20plot%20with%20error%20bars%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;2) Line plot with error bars&lt;/h2&gt;-nav`)" id="&lt;h2&gt;2) Line plot with error bars&lt;/h2&gt;-nav">
+									2) Line plot with error bars
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%3ch3%3eCustomized%20line%20plot%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;Customized line plot&lt;/h3&gt;-nav`)" id="&lt;h3&gt;Customized line plot&lt;/h3&gt;-nav">
+									Customized line plot
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%3ch3%3eUse%20geom_pointrange%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;Use geom_pointrange&lt;/h3&gt;-nav`)" id="&lt;h3&gt;Use geom_pointrange&lt;/h3&gt;-nav">
+									Use geom_pointrange
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%3ch3%3eUse%20geom_line%28%29%2bgeom_pointrange%28%29%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;Use geom_line()&#43;geom_pointrange()&lt;/h3&gt;-nav`)" id="&lt;h3&gt;Use geom_line()&#43;geom_pointrange()&lt;/h3&gt;-nav">
+									Use geom_line()&#43;geom_pointrange()
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+							
+								</ul>
+							
+						
+						
+						
+							<li>
+								<a href="#%3ch2%3e3%29%20Dot%20plot%20with%20mean%20point%20and%20error%20bars%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;3) Dot plot with mean point and error bars&lt;/h2&gt;-nav`)" id="&lt;h2&gt;3) Dot plot with mean point and error bars&lt;/h2&gt;-nav">
+									3) Dot plot with mean point and error bars
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%3ch3%3euse%20crossbar%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;use crossbar&lt;/h3&gt;-nav`)" id="&lt;h3&gt;use crossbar&lt;/h3&gt;-nav">
+									use crossbar
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%3ch3%3euse%20errorbar%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;use errorbar&lt;/h3&gt;-nav`)" id="&lt;h3&gt;use errorbar&lt;/h3&gt;-nav">
+									use errorbar
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
+</div>
+    
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+        
+        <a type="button" class="pagination-action" id="darkModeToggleButton">
+            <span class="material-icons pagination-action-icon" id="darkModeToggleIcon">
+                dark_mode
+            </span>
+        </a>
+        
+        
+    </div>
+</div>
+<div class="single-column-drawer-container" id="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            
+            
+            
+                
+                
+                
+                    
+                
+                
+                
+                <a class="a-block drawer-menu-item active" href="/post/">
+                    Posts
+                </a>
+                
+            
+                
+                
+                
+                
+                
+                <a class="a-block drawer-menu-item false" href="/about/">
+                    About
+                </a>
+                
+            
+            
+            <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%3ch2%3eIntroduction%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;Introduction&lt;/h2&gt;-nav`)" id="&lt;h2&gt;Introduction&lt;/h2&gt;-nav">
+									Introduction
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%3ch2%3ePrepare%20the%20data%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;Prepare the data&lt;/h2&gt;-nav`)" id="&lt;h2&gt;Prepare the data&lt;/h2&gt;-nav">
+									Prepare the data
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%3ch2%3e1%29%20Barplot%20with%20error%20bars%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;1) Barplot with error bars&lt;/h2&gt;-nav`)" id="&lt;h2&gt;1) Barplot with error bars&lt;/h2&gt;-nav">
+									1) Barplot with error bars
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%3ch3%3eCustomized%20bar%20plot%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;Customized bar plot&lt;/h3&gt;-nav`)" id="&lt;h3&gt;Customized bar plot&lt;/h3&gt;-nav">
+									Customized bar plot
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+							
+								</ul>
+							
+						
+						
+						
+							<li>
+								<a href="#%3ch2%3e2%29%20Line%20plot%20with%20error%20bars%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;2) Line plot with error bars&lt;/h2&gt;-nav`)" id="&lt;h2&gt;2) Line plot with error bars&lt;/h2&gt;-nav">
+									2) Line plot with error bars
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%3ch3%3eCustomized%20line%20plot%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;Customized line plot&lt;/h3&gt;-nav`)" id="&lt;h3&gt;Customized line plot&lt;/h3&gt;-nav">
+									Customized line plot
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%3ch3%3eUse%20geom_pointrange%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;Use geom_pointrange&lt;/h3&gt;-nav`)" id="&lt;h3&gt;Use geom_pointrange&lt;/h3&gt;-nav">
+									Use geom_pointrange
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%3ch3%3eUse%20geom_line%28%29%2bgeom_pointrange%28%29%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;Use geom_line()&#43;geom_pointrange()&lt;/h3&gt;-nav`)" id="&lt;h3&gt;Use geom_line()&#43;geom_pointrange()&lt;/h3&gt;-nav">
+									Use geom_line()&#43;geom_pointrange()
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+							
+								</ul>
+							
+						
+						
+						
+							<li>
+								<a href="#%3ch2%3e3%29%20Dot%20plot%20with%20mean%20point%20and%20error%20bars%3c%2fh2%3e" onclick="onNavClick(`#&lt;h2&gt;3) Dot plot with mean point and error bars&lt;/h2&gt;-nav`)" id="&lt;h2&gt;3) Dot plot with mean point and error bars&lt;/h2&gt;-nav">
+									3) Dot plot with mean point and error bars
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%3ch3%3euse%20crossbar%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;use crossbar&lt;/h3&gt;-nav`)" id="&lt;h3&gt;use crossbar&lt;/h3&gt;-nav">
+									use crossbar
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%3ch3%3euse%20errorbar%3c%2fh3%3e" onclick="onNavClick(`#&lt;h3&gt;use errorbar&lt;/h3&gt;-nav`)" id="&lt;h3&gt;use errorbar&lt;/h3&gt;-nav">
+									use errorbar
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
+</div>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div id="drawer-mask" v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav id="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div id="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a id="navTitle" class="navbar-brand" href="/">
+            Joey&#39;s Blog
+        </a>
+        
+        <button type="button" class="nav-darkmode-toggle" id="darkModeToggleButton2">
+            <i class="material-icons" id="darkModeToggleIcon2">
+                dark_mode
+            </i>
+        </button>
+        
+    </div>
+</nav>
+<div class="single-column-header-container" id="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">Joey&#39;s Blog</div>
+        
+
+    </a>
+</div>
+
+            <div id="content">
+                <div id="streamContainer" class="stream-container">
+
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            
+            
+            
+                
+            
+
+            <div class="post-head-wrapper"
+                
+                    
+                    
+                    style="background-image: url('/images/barplot.png')"
+                    
+                
+            >
+                <div class="post-title">
+                    Plot with Error Bar
+                    
+                    <div class="post-subtitle">
+                        Add error bar to box plot, bar plot, etc.
+                    </div>
+                    
+                    <div class="post-meta">
+                        
+                        <time itemprop="datePublished">
+                            2021-08-22 00:00
+                        </time>
+                        
+
+                        
+                            <i class="material-icons" style="">folder</i>
+                                <a href="/categories/">[R]</a>
+                                &nbsp;
+                        
+
+                        
+                            <i class="material-icons" style="">label</i>
+                            
+                                <a href="/tags/plot">plot</a>
+                                &nbsp;
+                            
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-body-wrapper">
+                
+                <div class="post-body" v-pre>
+                
+                    
+<script src="/post/plot-with-error-bar/index_files/header-attrs/header-attrs.js"></script>
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>This tutorial describes how to create a graph with error bars using R software and ggplot2 package. There are different types of error bars which can be created using the functions below :</p>
+<p>geom_errorbar(),
+geom_linerange(),
+geom_pointrange(),
+geom_crossbar(),
+geom_errorbarh()</p>
+</div>
+<div id="prepare-the-data" class="section level2">
+<h2>Prepare the data</h2>
+<p>ToothGrowth data is used. It describes the effect of Vitamin C on tooth growth in Guinea pigs. Three dose levels of Vitamin C (0.5, 1, and 2 mg) with each of two delivery methods [orange juice (OJ) or ascorbic acid (VC)] are used :</p>
+<p>len : Tooth length
+dose : Dose in milligrams (0.5, 1, 2)
+supp : Supplement type (VC or OJ)</p>
+<pre class="r"><code>library(ggplot2)
+df &lt;- ToothGrowth
+df$dose &lt;- as.factor(df$dose)
+head(df)</code></pre>
+<pre><code>##    len supp dose
+## 1  4.2   VC  0.5
+## 2 11.5   VC  0.5
+## 3  7.3   VC  0.5
+## 4  5.8   VC  0.5
+## 5  6.4   VC  0.5
+## 6 10.0   VC  0.5</code></pre>
+<pre class="r"><code>#First, the helper function below will be used to calculate the mean and the standard deviation, for the variable of interest, in each group :
+#+++++++++++++++++++++++++
+# Function to calculate the mean and the standard deviation
+  # for each group
+#+++++++++++++++++++++++++
+# data : a data frame
+# varname : the name of a column containing the variable
+  #to be summariezed
+# groupnames : vector of column names to be used as
+  # grouping variables
+data_summary &lt;- function(data, varname, groupnames){
+  require(plyr)
+  summary_func &lt;- function(x, col){
+    c(mean = mean(x[[col]], na.rm=TRUE),
+      sd = sd(x[[col]], na.rm=TRUE))
+  }
+  data_sum&lt;-ddply(data, groupnames, .fun=summary_func,
+                  varname)
+  data_sum &lt;- rename(data_sum, c(&quot;mean&quot; = varname))
+ return(data_sum)
+}
+
+df2 &lt;- data_summary(ToothGrowth, varname=&quot;len&quot;, 
+                    groupnames=c(&quot;supp&quot;, &quot;dose&quot;))
+# Convert dose to a factor variable
+df2$dose=as.factor(df2$dose)
+head(df2)</code></pre>
+<pre><code>##   supp dose   len       sd
+## 1   OJ  0.5 13.23 4.459709
+## 2   OJ    1 22.70 3.910953
+## 3   OJ    2 26.06 2.655058
+## 4   VC  0.5  7.98 2.746634
+## 5   VC    1 16.77 2.515309
+## 6   VC    2 26.14 4.797731</code></pre>
+</div>
+<div id="barplot-with-error-bars" class="section level2">
+<h2>1) Barplot with error bars</h2>
+<pre class="r"><code>library(ggplot2)
+# Default bar plot
+p&lt;- ggplot(df2, aes(x=dose, y=len, fill=supp)) + 
+  geom_bar(stat=&quot;identity&quot;, color=&quot;black&quot;, 
+           position=position_dodge()) +
+  geom_errorbar(aes(ymin=len-sd, ymax=len+sd), width=.2,
+                 position=position_dodge(.9)) 
+print(p)</code></pre>
+<p><img src="/post/plot-with-error-bar/index_files/figure-html/Basic%20bar%20plot-1.png" width="672" /></p>
+<div id="customized-bar-plot" class="section level3">
+<h3>Customized bar plot</h3>
+<pre class="r"><code>p+labs(title=&quot;Tooth length per dose&quot;, x=&quot;Dose (mg)&quot;, y = &quot;Length&quot;)+
+   theme_classic() +
+   scale_fill_manual(values=c(&#39;#999999&#39;,&#39;#E69F00&#39;))</code></pre>
+<p><img src="/post/plot-with-error-bar/index_files/figure-html/Customized%20bar%20plot-1.png" width="672" /></p>
+</div>
+</div>
+<div id="line-plot-with-error-bars" class="section level2">
+<h2>2) Line plot with error bars</h2>
+<pre class="r"><code># Default line plot
+p&lt;- ggplot(df2, aes(x=dose, y=len, group=supp, color=supp)) + 
+  geom_line() +
+  geom_point()+
+  geom_errorbar(aes(ymin=len-sd, ymax=len+sd), width=.2,
+                 position=position_dodge(0.05))
+print(p)</code></pre>
+<p><img src="/post/plot-with-error-bar/index_files/figure-html/Line%20plot%200-1.png" width="672" /></p>
+<div id="customized-line-plot" class="section level3">
+<h3>Customized line plot</h3>
+<pre class="r"><code>p+labs(title=&quot;Tooth length per dose&quot;, x=&quot;Dose (mg)&quot;, y = &quot;Length&quot;)+
+   theme_classic() +
+   scale_color_manual(values=c(&#39;#999999&#39;,&#39;#E69F00&#39;))</code></pre>
+<p><img src="/post/plot-with-error-bar/index_files/figure-html/Line%20plot%201-1.png" width="672" /></p>
+<p>You can also use the functions geom_pointrange() or geom_linerange() instead of using geom_errorbar()</p>
+</div>
+<div id="use-geom_pointrange" class="section level3">
+<h3>Use geom_pointrange</h3>
+<pre class="r"><code>ggplot(df2, aes(x=dose, y=len, group=supp, color=supp)) + 
+geom_pointrange(aes(ymin=len-sd, ymax=len+sd))</code></pre>
+<p><img src="/post/plot-with-error-bar/index_files/figure-html/Line%20plot%202-1.png" width="672" /></p>
+</div>
+<div id="use-geom_linegeom_pointrange" class="section level3">
+<h3>Use geom_line()+geom_pointrange()</h3>
+<pre class="r"><code>ggplot(df2, aes(x=dose, y=len, group=supp, color=supp)) + 
+  geom_line()+
+  geom_pointrange(aes(ymin=len-sd, ymax=len+sd))</code></pre>
+<p><img src="/post/plot-with-error-bar/index_files/figure-html/Line%20Plot%203-1.png" width="672" /></p>
+</div>
+</div>
+<div id="dot-plot-with-mean-point-and-error-bars" class="section level2">
+<h2>3) Dot plot with mean point and error bars</h2>
+<p>The functions geom_dotplot() and stat_summary() are used :</p>
+<p>The mean +/- SD can be added as a crossbar, a error bar or a pointrange:</p>
+<div id="use-crossbar" class="section level3">
+<h3>use crossbar</h3>
+<pre class="r"><code>p &lt;- ggplot(df, aes(x=dose, y=len)) + 
+    geom_dotplot(binaxis=&#39;y&#39;, stackdir=&#39;center&#39;)
+
+p + stat_summary(fun.data=&quot;mean_sdl&quot;, fun.args = list(mult=1), 
+                 geom=&quot;crossbar&quot;, width=0.5) + theme_classic()</code></pre>
+<p><img src="/post/plot-with-error-bar/index_files/figure-html/box_Plot1-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="use-errorbar" class="section level3">
+<h3>use errorbar</h3>
+<pre class="r"><code>p + stat_summary(fun.data=&quot;mean_sdl&quot;, fun.args = list(mult=1), 
+                 geom=&quot;errorbar&quot;, width=0.5) + theme_classic()</code></pre>
+<p><img src="/post/plot-with-error-bar/index_files/figure-html/box_Plot2-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+
+                    
+                    <HR width="100%" id="EOF">
+		    <p style="color:#777;">Last modified on 2021-08-22</p>
+                    
+                </div>
+            </div>
+            
+            
+            <nav class="post-pagination">
+
+                
+                <a class="newer-posts" href="/post/venn-diagram/">
+			Next<br>Venn Diagram
+                </a>
+                
+                
+                
+                <a class="older-posts" href="/about/">
+			Previous<br>About
+                </a>
+                
+            </nav>
+            <div class="post-comment-wrapper">
+                
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+                    </div>
+            </div><div id="single-column-footer">
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	2021 Joey&#39;s Blog
+	
+</div>
+            </div>
+    
+    <script src="/js/journal.js"></script>
+    </body>
+</html>

@@ -8,7 +8,10 @@
     <loc>/</loc>
     <lastmod>2021-10-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/2021/10/01/logistic-regression-in-r/</loc>
+    <loc>/tags/logistic-regression/</loc>
+    <lastmod>2021-10-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/post/logistic-regression-in-r/</loc>
     <lastmod>2021-10-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/plot/</loc>
@@ -20,21 +23,16 @@
     <loc>/categories/r/</loc>
     <lastmod>2021-10-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/tags/r-markdown/</loc>
-    <lastmod>2021-10-01T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>/tags/</loc>
     <lastmod>2021-10-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/2021/09/22/plot-with-error-bar/</loc>
+    <loc>/post/venn-diagram/</loc>
     <lastmod>2021-09-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/2021/09/22/venn-diagram/</loc>
-    <lastmod>2021-09-22T00:00:00+00:00</lastmod>
+    <loc>/post/plot-with-error-bar/</loc>
+    <lastmod>2021-08-22T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/about/</loc>
-    <lastmod>2016-05-05T21:48:51-07:00</lastmod>
-  </url><url>
-    <loc>/1/01/01/more-will-come/</loc>
+    <lastmod>2021-05-05T21:48:51-07:00</lastmod>
   </url>
 </urlset>
