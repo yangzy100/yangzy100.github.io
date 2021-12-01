@@ -1,0 +1,226 @@
+---
+title: Volcano plot
+author: Joey Yang
+date: '2021-11-30'
+featured_image: "/images/volcano.png"
+lastmod: '2021-11-30T08:47:46-05:00'
+description: Create Volcano Plot from Raw data.
+slug: Volcano-plot
+categories:
+  - R
+tags:
+  - plot
+  
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Volcano plot
+
+Volcano plots are commonly used to display the results of bio experiments. A volcano plot is a type of scatter plot that shows statistical significance (P value) versus magnitude of change (fold change). It enables quick visual identification of genes with large fold changes that are also statistically significant. These may be the most biologically significant genes. In a volcano plot, the most upregulated genes are towards the right, the most downregulated genes are towards the left, and the most statistically significant genes are towards the top.
+
+Here we will show how to start from data set to the final volcano plot. 
+
+## Load required R packages
+```{r message=FALSE}
+library(dplyr)
+library(tidyverse)
+library(rstatix)
+library(ggplot2)
+library(ggrepel)
+library(ggpubr)
+library(EnhancedVolcano)
+```
+
+## Read in data
+
+the example data was download from [here](https://dev.networkanalyst.ca/resources/data/test/E-GEOD-25713.txt).
+
+
+```{r}
+raw.data<-read.table("E-GEOD-25713.txt", header = T)
+head(raw.data[,1:5])
+```
+
+the data set includes about 5000 genes from a meta-analysis of helminth infections in mouse liver. 
+
+```{r, echo=FALSE}
+dim(raw.data)
+```
+
+## Transpose data
+
+```{r data}
+data<-as.data.frame(t(raw.data[,-1]))
+colnames(data)<-raw.data[,1]
+head(data[,1:5])
+```
+
+## Convert data into numeric
+
+```{r}
+for (i in 2:ncol(data)) {
+  data[,i]<-as.numeric(data[,i])
+}
+
+head(data[,1:5])
+```
+
+```{r}
+summary(data[,1:4])
+```
+
+Since the values in a large range, we need to normalize the data (0 to 1) first.  
+
+```{r}
+#data.n<-data 
+data.n<-apply(data[,-1], 2, function(x) {(x - min(x, na.rm = T))/(max(x, na.rm = T) - min(x, na.rm = T))})
+data.n<-as.data.frame(cbind(data[,1], data.n))
+for (i in 2:ncol(data.n)) {
+  data.n[,i]<-as.numeric(data.n[,i])
+}
+names(data.n)[1]<-"CLASS"
+head(data.n[,1:5])
+```
+
+Check the range of data to make sure it is from 0 to 1.
+
+```{r}
+summary(data.n[,1:4])
+```
+
+## Transform the data into long format
+
+Put all variables in the same column except the grouping variable
+
+```{r}
+data.long <- data.n %>%
+  pivot_longer(-CLASS, names_to = "variables", values_to = "value")
+data.long$value<-as.numeric(data.long$value)
+data.long %>% sample_n(6)
+```
+
+## Run Multiple T-tests
+
+Group the data by variables and compare groups
+Adjust the p-values and add significance levels
+
+```{r ttest}
+stat.test <- data.long %>%
+  group_by(variables) %>%
+  t_test(value ~ CLASS) %>%
+  adjust_pvalue(method = "fdr") %>%
+  add_significance()
+head(stat.test)
+
+```
+
+```{r, echo=F}
+dim(stat.test) 
+```
+
+## Distribution of p-values
+
+Plot a histogram of the p-values.
+
+```{r hist.p, echo=FALSE}
+hist(stat.test$p)
+```
+
+## Log2 transformation of the data
+
+```{r}
+data.long.log <- data.long
+data.long.log$value <- log2(data.long$value+0.01) 
+head(data.long.log)
+```
+
+Calculate the mean of Gene for each group
+
+```{r}
+data.long.log %>%
+  group_by(CLASS, variables) %>%
+  summarise_at(vars(value), list(mean = ~mean(., na.rm=TRUE))) -> data.long.mean
+head(data.long.mean)
+#summary(data.long.mean)
+```
+
+because our data is already log2 transformed, we can take the difference between the means. 
+And this is our log2 Fold Change or log2 Ratio == log2(control / infected)
+
+```{r}
+data.long.mean.CONTROL<-data.long.mean %>% filter(CLASS=='CONTROL')
+data.long.mean.INFECTED<-data.long.mean %>% filter(CLASS=='INFECTED')
+
+log2FoldChange <- data.frame(data.long.mean.CONTROL$mean - data.long.mean.INFECTED$mean)
+colnames(log2FoldChange)[1]<-"log2FoldChange"
+head(log2FoldChange)
+
+```
+
+
+```{r}
+results = cbind(log2FoldChange$log2FoldChange, stat.test$p.adj)
+results = as.data.frame(results)
+colnames(results)[1]<-"log2FoldChange"
+colnames(results)[2]<-"FDR"
+rownames(results) <- stat.test$variables
+results$Log10FDR <- -1*log10(results$FDR)
+#results$Log10pValue <- -1*log10(results$pValue)
+
+head(results)
+```
+
+
+```{r}
+### Set thresholds
+padj.cutoff <- 0.05
+lfc.cutoff <- 0.58
+
+#The fc cutoff is set to 0.58; remember that we are working with log2 fold changes
+#so this translates to an actual fold change of 1.5 which is pretty reasonable.
+
+threshold <- results$FDR < padj.cutoff & abs(results$log2FoldChange) > lfc.cutoff
+
+length(which(threshold)) #1672
+
+results$threshold<-threshold
+```
+
+Now we can easily subset the results table to only include those 
+that are significant using the subset() function:
+
+```{r}
+sigOE <- data.frame(subset(results, threshold==TRUE))
+```
+
+show the top 10 genes with lowest p-value
+
+```{r}
+results_ordered <- results[order(results$FDR), ] 
+
+results_ordered$genelabels <- rownames(results_ordered) %in% rownames(results_ordered[1:10,])
+
+(results_ordered[1:15,])
+```
+
+## Visualizing the results
+
+```{r fig1, fig.height = 8, fig.width = 8, fig.align = "center"}
+EnhancedVolcano(results,
+                lab = rownames(results),
+                x = "log2FoldChange",
+                y = "FDR",
+                pCutoff = 0.05,  #The default P value cut-off of 10e-6
+                FCcutoff = 0.58, #The default cut-off for log2FC is >|2|
+                xlim = c(-5, 5),
+                ylim = c(0, 10),
+                xlab = bquote("Difference," ~Log[2] ~ "fold change (Control vs. Infected)"),
+                ylab = bquote(~-Log[10] ~ italic(p) ~ "-Value (FDR adjusted)"),
+                title = "Control versus Infected",
+                subtitle = 'Differential expression')
+
+```
+

@@ -6,7 +6,16 @@
     <description>Recent content in plot on Joey&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 01 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/plot/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 30 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/plot/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Volcano plot</title>
+      <link>/post/volcano-plot/</link>
+      <pubDate>Tue, 30 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/volcano-plot/</guid>
+      <description>Volcano plotVolcano plots are commonly used to display the results of bio experiments. A volcano plot is a type of scatter plot that shows statistical significance (P value) versus magnitude of change (fold change). It enables quick visual identification of genes with large fold changes that are also statistically significant. These may be the most biologically significant genes. In a volcano plot, the most upregulated genes are towards the right, the most downregulated genes are towards the left, and the most statistically significant genes are towards the top.</description>
+    </item>
+    
     <item>
       <title>Logistic Regression in R</title>
       <link>/post/logistic-regression-in-r/</link>

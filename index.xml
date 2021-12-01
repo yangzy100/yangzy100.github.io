@@ -5,9 +5,275 @@
     <description>Recent content on Joey&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 01 Oct 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 30 Nov 2021 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+        <item>
+        <title>Volcano plot</title>
+        <link>/post/volcano-plot/</link>
+        <pubDate>Tue, 30 Nov 2021 00:00:00 +0000</pubDate>
+        
+        <guid>/post/volcano-plot/</guid>
+        <description>Joey&#39;s Blog /post/volcano-plot/ -
+&lt;script src=&#34;/post/volcano-plot/index_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;div id=&#34;volcano-plot&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Volcano plot&lt;/h2&gt;
+&lt;p&gt;Volcano plots are commonly used to display the results of bio experiments. A volcano plot is a type of scatter plot that shows statistical significance (P value) versus magnitude of change (fold change). It enables quick visual identification of genes with large fold changes that are also statistically significant. These may be the most biologically significant genes. In a volcano plot, the most upregulated genes are towards the right, the most downregulated genes are towards the left, and the most statistically significant genes are towards the top.&lt;/p&gt;
+&lt;p&gt;Here we will show how to start from data set to the final volcano plot.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;load-required-r-packages&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Load required R packages&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(dplyr)
+library(tidyverse)
+library(rstatix)
+library(ggplot2)
+library(ggrepel)
+library(ggpubr)
+library(EnhancedVolcano)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;read-in-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Read in data&lt;/h2&gt;
+&lt;p&gt;the example data was download from &lt;a href=&#34;https://dev.networkanalyst.ca/resources/data/test/E-GEOD-25713.txt&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;raw.data&amp;lt;-read.table(&amp;quot;E-GEOD-25713.txt&amp;quot;, header = T)
+head(raw.data[,1:5])&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##     NAME    GSM631514   GSM631515    GSM631516   GSM631517
+## 1  CLASS      CONTROL     CONTROL      CONTROL     CONTROL
+## 2 218581  0.001585484 -0.05552578 -0.002326012 0.053940773
+## 3 630499  0.067639825    0.129704 -0.023203375  -0.1973443
+## 4  17474  -0.19309902  0.17437744   0.20546722  0.01872158
+## 5  72590  0.026670456 0.059513092 -0.010932922 -0.08618355
+## 6  74616 -0.007469177    0.127182   0.27496672 -0.11971235&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;the data set includes about 5000 genes from a meta-analysis of helminth infections in mouse liver.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 4999   25&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;transpose-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Transpose data&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data&amp;lt;-as.data.frame(t(raw.data[,-1]))
+colnames(data)&amp;lt;-raw.data[,1]
+head(data[,1:5])&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##             CLASS       218581       630499       17474        72590
+## GSM631514 CONTROL  0.001585484  0.067639825 -0.19309902  0.026670456
+## GSM631515 CONTROL  -0.05552578     0.129704  0.17437744  0.059513092
+## GSM631516 CONTROL -0.002326012 -0.023203375  0.20546722 -0.010932922
+## GSM631517 CONTROL  0.053940773   -0.1973443  0.01872158  -0.08618355
+## GSM631518 CONTROL  0.013415813 -0.102094175  0.03093195  -0.09370041
+## GSM631519 CONTROL -0.011088848  0.125297069 -0.23639917   0.10463333&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;convert-data-into-numeric&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Convert data into numeric&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;for (i in 2:ncol(data)) {
+  data[,i]&amp;lt;-as.numeric(data[,i])
+}
+
+head(data[,1:5])&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##             CLASS       218581      630499       17474       72590
+## GSM631514 CONTROL  0.001585484  0.06763983 -0.19309902  0.02667046
+## GSM631515 CONTROL -0.055525780  0.12970400  0.17437744  0.05951309
+## GSM631516 CONTROL -0.002326012 -0.02320337  0.20546722 -0.01093292
+## GSM631517 CONTROL  0.053940773 -0.19734430  0.01872158 -0.08618355
+## GSM631518 CONTROL  0.013415813 -0.10209417  0.03093195 -0.09370041
+## GSM631519 CONTROL -0.011088848  0.12529707 -0.23639917  0.10463333&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(data[,1:4])&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##     CLASS               218581             630499             17474        
+##  Length:24          Min.   :-0.05553   Min.   :-0.19734   Min.   :-0.2364  
+##  Class :character   1st Qu.: 0.04381   1st Qu.: 0.05872   1st Qu.: 0.1165  
+##  Mode  :character   Median : 0.59891   Median : 0.17796   Median : 0.9374  
+##                     Mean   : 0.80345   Mean   : 0.28054   Mean   : 1.3054  
+##                     3rd Qu.: 1.40260   3rd Qu.: 0.55904   3rd Qu.: 2.2361  
+##                     Max.   : 2.39095   Max.   : 1.11271   Max.   : 3.5559&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Since the values in a large range, we need to normalize the data (0 to 1) first.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#data.n&amp;lt;-data 
+data.n&amp;lt;-apply(data[,-1], 2, function(x) {(x - min(x, na.rm = T))/(max(x, na.rm = T) - min(x, na.rm = T))})
+data.n&amp;lt;-as.data.frame(cbind(data[,1], data.n))
+for (i in 2:ncol(data.n)) {
+  data.n[,i]&amp;lt;-as.numeric(data.n[,i])
+}
+names(data.n)[1]&amp;lt;-&amp;quot;CLASS&amp;quot;
+head(data.n[,1:5])&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##             CLASS     218581     630499      17474       72590
+## GSM631514 CONTROL 0.02334433 0.20226950 0.01141786 0.139117537
+## GSM631515 CONTROL 0.00000000 0.24964476 0.10831813 0.177075116
+## GSM631516 CONTROL 0.02174550 0.13292645 0.11651622 0.095657774
+## GSM631517 CONTROL 0.04474465 0.00000000 0.06727306 0.008687543
+## GSM631518 CONTROL 0.02818000 0.07270698 0.07049283 0.000000000
+## GSM631519 CONTROL 0.01816367 0.24628083 0.00000000 0.229222422&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Check the range of data to make sure it is from 0 to 1.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(data.n[,1:4])&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##     CLASS               218581           630499           17474        
+##  Length:24          Min.   :0.0000   Min.   :0.0000   Min.   :0.00000  
+##  Class :character   1st Qu.:0.0406   1st Qu.:0.1955   1st Qu.:0.09307  
+##  Mode  :character   Median :0.2675   Median :0.2865   Median :0.30952  
+##                     Mean   :0.3511   Mean   :0.3648   Mean   :0.40655  
+##                     3rd Qu.:0.5960   3rd Qu.:0.5774   3rd Qu.:0.65198  
+##                     Max.   :1.0000   Max.   :1.0000   Max.   :1.00000&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;transform-the-data-into-long-format&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Transform the data into long format&lt;/h2&gt;
+&lt;p&gt;Put all variables in the same column except the grouping variable&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data.long &amp;lt;- data.n %&amp;gt;%
+  pivot_longer(-CLASS, names_to = &amp;quot;variables&amp;quot;, values_to = &amp;quot;value&amp;quot;)
+data.long$value&amp;lt;-as.numeric(data.long$value)
+data.long %&amp;gt;% sample_n(6)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 3
+##   CLASS    variables value
+##   &amp;lt;chr&amp;gt;    &amp;lt;chr&amp;gt;     &amp;lt;dbl&amp;gt;
+## 1 CONTROL  215031    0.485
+## 2 INFECTED 72607     0.389
+## 3 INFECTED 232086    0.757
+## 4 INFECTED 14694     0.756
+## 5 INFECTED 227298    0.642
+## 6 INFECTED 70266     0.596&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;run-multiple-t-tests&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Run Multiple T-tests&lt;/h2&gt;
+&lt;p&gt;Group the data by variables and compare groups
+Adjust the p-values and add significance levels&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stat.test &amp;lt;- data.long %&amp;gt;%
+  group_by(variables) %&amp;gt;%
+  t_test(value ~ CLASS) %&amp;gt;%
+  adjust_pvalue(method = &amp;quot;fdr&amp;quot;) %&amp;gt;%
+  add_significance()
+head(stat.test)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 11
+##   variables .y.   group1  group2      n1    n2 statistic    df         p   p.adj
+##   &amp;lt;chr&amp;gt;     &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt;   &amp;lt;chr&amp;gt;    &amp;lt;int&amp;gt; &amp;lt;int&amp;gt;     &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;
+## 1 100034251 value CONTROL INFECTED     6    18    -6.75  11.9  0.0000208 7.72e-5
+## 2 100034361 value CONTROL INFECTED     6    18    -0.804 18.4  0.431     4.83e-1
+## 3 100038882 value CONTROL INFECTED     6    18    -0.746 21.9  0.464     5.15e-1
+## 4 100087    value CONTROL INFECTED     6    18    -1.27   7.86 0.241     2.90e-1
+## 5 100088    value CONTROL INFECTED     6    18    -4.19  14.9  0.00079   1.68e-3
+## 6 100102    value CONTROL INFECTED     6    18    -2.34  21.8  0.0287    4.20e-2
+## # ... with 1 more variable: p.adj.signif &amp;lt;chr&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 4998   11&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;distribution-of-p-values&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Distribution of p-values&lt;/h2&gt;
+&lt;p&gt;Plot a histogram of the p-values.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/volcano-plot/index_files/figure-html/hist.p-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;log2-transformation-of-the-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Log2 transformation of the data&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data.long.log &amp;lt;- data.long
+data.long.log$value &amp;lt;- log2(data.long$value+0.01) 
+head(data.long.log)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 3
+##   CLASS   variables  value
+##   &amp;lt;chr&amp;gt;   &amp;lt;chr&amp;gt;      &amp;lt;dbl&amp;gt;
+## 1 CONTROL 218581    -4.91 
+## 2 CONTROL 630499    -2.24 
+## 3 CONTROL 17474     -5.55 
+## 4 CONTROL 72590     -2.75 
+## 5 CONTROL 74616     -0.577
+## 6 CONTROL 93695     -2.99&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Calculate the mean of Gene for each group&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data.long.log %&amp;gt;%
+  group_by(CLASS, variables) %&amp;gt;%
+  summarise_at(vars(value), list(mean = ~mean(., na.rm=TRUE))) -&amp;gt; data.long.mean
+head(data.long.mean)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 3
+## # Groups:   CLASS [1]
+##   CLASS   variables   mean
+##   &amp;lt;chr&amp;gt;   &amp;lt;chr&amp;gt;      &amp;lt;dbl&amp;gt;
+## 1 CONTROL 100034251 -2.65 
+## 2 CONTROL 100034361 -0.511
+## 3 CONTROL 100038882 -1.59 
+## 4 CONTROL 100087    -1.99 
+## 5 CONTROL 100088    -2.83 
+## 6 CONTROL 100102    -1.84&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#summary(data.long.mean)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;because our data is already log2 transformed, we can take the difference between the means.
+And this is our log2 Fold Change or log2 Ratio == log2(control / infected)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data.long.mean.CONTROL&amp;lt;-data.long.mean %&amp;gt;% filter(CLASS==&amp;#39;CONTROL&amp;#39;)
+data.long.mean.INFECTED&amp;lt;-data.long.mean %&amp;gt;% filter(CLASS==&amp;#39;INFECTED&amp;#39;)
+
+log2FoldChange &amp;lt;- data.frame(data.long.mean.CONTROL$mean - data.long.mean.INFECTED$mean)
+colnames(log2FoldChange)[1]&amp;lt;-&amp;quot;log2FoldChange&amp;quot;
+head(log2FoldChange)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   log2FoldChange
+## 1     -2.1225768
+## 2      0.1617805
+## 3      0.2549574
+## 4     -0.7523531
+## 5     -1.8459492
+## 6     -0.2931409&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;results = cbind(log2FoldChange$log2FoldChange, stat.test$p.adj)
+results = as.data.frame(results)
+colnames(results)[1]&amp;lt;-&amp;quot;log2FoldChange&amp;quot;
+colnames(results)[2]&amp;lt;-&amp;quot;FDR&amp;quot;
+rownames(results) &amp;lt;- stat.test$variables
+results$Log10FDR &amp;lt;- -1*log10(results$FDR)
+#results$Log10pValue &amp;lt;- -1*log10(results$pValue)
+
+head(results)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##           log2FoldChange          FDR  Log10FDR
+## 100034251     -2.1225768 7.717773e-05 4.1125080
+## 100034361      0.1617805 4.833157e-01 0.3157691
+## 100038882      0.2549574 5.153493e-01 0.2878983
+## 100087        -0.7523531 2.899658e-01 0.5376532
+## 100088        -1.8459492 1.680894e-03 2.7744597
+## 100102        -0.2931409 4.196682e-02 1.3770939&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;### Set thresholds
+padj.cutoff &amp;lt;- 0.05
+lfc.cutoff &amp;lt;- 0.58
+
+#The fc cutoff is set to 0.58; remember that we are working with log2 fold changes
+#so this translates to an actual fold change of 1.5 which is pretty reasonable.
+
+threshold &amp;lt;- results$FDR &amp;lt; padj.cutoff &amp;amp; abs(results$log2FoldChange) &amp;gt; lfc.cutoff
+
+length(which(threshold)) #1672&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 3319&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;results$threshold&amp;lt;-threshold&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we can easily subset the results table to only include those
+that are significant using the subset() function:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sigOE &amp;lt;- data.frame(subset(results, threshold==TRUE))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;show the top 10 genes with lowest p-value&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;results_ordered &amp;lt;- results[order(results$FDR), ] 
+
+results_ordered$genelabels &amp;lt;- rownames(results_ordered) %in% rownames(results_ordered[1:10,])
+
+(results_ordered[1:15,])&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##        log2FoldChange          FDR Log10FDR threshold genelabels
+## 14998       -4.308052 4.798080e-10 9.318933      TRUE       TRUE
+## 23833       -3.579200 4.798080e-10 9.318933      TRUE       TRUE
+## 26362       -3.188878 4.798080e-10 9.318933      TRUE       TRUE
+## 98267       -4.401332 4.798080e-10 9.318933      TRUE       TRUE
+## 105855      -4.144539 6.164200e-10 9.210123      TRUE       TRUE
+## 12262       -3.337432 6.164200e-10 9.210123      TRUE       TRUE
+## 12362       -3.436041 6.164200e-10 9.210123      TRUE       TRUE
+## 20210       -3.788854 6.164200e-10 9.210123      TRUE       TRUE
+## 22329       -3.940544 6.164200e-10 9.210123      TRUE       TRUE
+## 24088       -3.529913 6.164200e-10 9.210123      TRUE       TRUE
+## 65221       -3.214735 6.164200e-10 9.210123      TRUE      FALSE
+## 71712       -4.229248 6.164200e-10 9.210123      TRUE      FALSE
+## 16792       -3.542597 6.920308e-10 9.159875      TRUE      FALSE
+## 17084       -3.494328 9.746100e-10 9.011169      TRUE      FALSE
+## 18173       -3.358720 1.239504e-09 8.906752      TRUE      FALSE&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;visualizing-the-results&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Visualizing the results&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;EnhancedVolcano(results,
+                lab = rownames(results),
+                x = &amp;quot;log2FoldChange&amp;quot;,
+                y = &amp;quot;FDR&amp;quot;,
+                pCutoff = 0.05,  #The default P value cut-off of 10e-6
+                FCcutoff = 0.58, #The default cut-off for log2FC is &amp;gt;|2|
+                xlim = c(-5, 5),
+                ylim = c(0, 10),
+                xlab = bquote(&amp;quot;Difference,&amp;quot; ~Log[2] ~ &amp;quot;fold change (Control vs. Infected)&amp;quot;),
+                ylab = bquote(~-Log[10] ~ italic(p) ~ &amp;quot;-Value (FDR adjusted)&amp;quot;),
+                title = &amp;quot;Control versus Infected&amp;quot;,
+                subtitle = &amp;#39;Differential expression&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning: Ignoring unknown parameters: xlim, ylim&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/volcano-plot/index_files/figure-html/fig1-1.png&#34; width=&#34;768&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+- /post/volcano-plot/ - </description>
+        </item>
     
     
     
